@@ -1,0 +1,45 @@
+﻿@using MedicoPlus.Models
+    @{
+        ViewBag.Title = "CreateDoctor";
+    }
+
+    <h2>CreateDoctor</h2>
+    <form action="CreateDoctor" method="post">
+        Doctor Name:<input type="text" name="DocName" />
+        <br />
+        userName : <input type="text" name="UserName" />
+        <br />
+        Introduction : <input type="text" name="Intro" />
+        <br />
+        Photo : <input type="file" name="Photo" />
+        <br />
+        Gender :    Male<input type="radio" name="Gender" value="Male" />
+        Female<input type="radio" name="Gender" value="Female" />
+        <br />
+        Mobile : <in[ut typeof="text" name="Mobile">
+            <br />
+            Email :<input type="text" name="Email" />
+            <br />
+            DOB : <input type="date" name="DOB" />
+            <br />
+            DOJ : <input type="date" name="DOJ" />
+            <br />
+            Status : <input type="text" name="Status" />
+            <br />
+            SpcialityId : <select name="Speciality">
+                <option value="1">Ppl </option>
+            </select>
+            <br />
+            Qualification : <input type="text" name="Qualification" />
+            <br />
+            MinConsultationFee : <input type="text" name="MinConsultationFee" />
+            <br />
+            Documents : <input type="file" name="Documents" />
+            <br />
+            MaxApptPerHour : <input type="text" name="MaxApptPerHour" />
+            <br />
+            Password : <input type="text" name="Password" />
+            <br />
+        <input type="hidden" name="IsActive" value="true" />
+            <input type="submit" value="Submit" />
+    </form>

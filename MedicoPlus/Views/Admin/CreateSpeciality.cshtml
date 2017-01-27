@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "CreateSpeciality";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>CreateSpeciality</h2>
+
+<form action="CreateSpeciality" method="post">
+    <div class="form-group">
+    <label>SpecialityName </label>
+    <input type="text" name="SpName" placeholder="Speciality Name" class="form-control" />
+</div>
+<div class="form-group">
+    <div class="checkbox checkbox-primary">
+        <input type="checkbox" name="IsActive" value="true" />
+        <label>IsActive</label>
+    </div>
+</div>
+
+<button type="submit" value="Add Speciality" class="btn btn-purple waves-effect waves-light">Submit</button>
+
+</form>
+

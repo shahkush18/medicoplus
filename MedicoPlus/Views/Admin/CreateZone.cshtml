@@ -1,0 +1,33 @@
+﻿@model DataTable
+@using System.Data
+@{
+    ViewBag.Title = "CreateZone";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>CreateZone</h2>
+<form action="CreateZone" method="post">
+    <div class="form-group">
+        <label>Zone Name </label>
+        <input type="text" name="ZName" placeholder="Zone Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>City Name</label>
+        <select name="CityId">
+            @for (int i = 0; i < Model.Rows.Count; i++)
+            {
+                <option value="@Model.Rows[i]["CityId"]">@Model.Rows[i]["CityName"]</option>
+            }
+        </select>
+
+    </div>
+    <div class="form-group">
+        <div class="checkbox checkbox-primary">
+            <input type="checkbox" name="IsActive" value="true" />
+            <label>IsActive</label>
+        </div>
+    </div>
+
+    <button type="submit" value="Add Zone" class="btn btn-purple waves-effect waves-light">Submit</button>
+    
+</form>

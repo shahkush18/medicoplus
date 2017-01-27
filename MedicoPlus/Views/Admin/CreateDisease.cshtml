@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "CreateDisease";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>CreateDisease</h2>
+<form action="/Admin/CreateDisease" method="post">
+
+    <div class="form-group">
+        <label> Disease Name</label>
+        <input type="text" name="DiseaseName" placeholder="Disease Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="checkbox checkbox-primary">
+            <input type="checkbox" name="IsActive" value="true" />
+            <label>IsActive</label>
+        </div>
+    </div>
+
+    <button type="submit" value="Add Disease" class="btn btn-purple waves-effect waves-light">Submit</button>
+</form>

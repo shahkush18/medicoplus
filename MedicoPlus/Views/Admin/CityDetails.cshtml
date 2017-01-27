@@ -1,0 +1,35 @@
+﻿@using System.Data
+@using MedicoPlus.Models
+@model DataTable
+@{
+    ViewBag.Title = "CityDetails";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+    MedicoPlus.Models.CityModel C = ViewBag.CityModel;
+}
+
+<h2>City</h2>
+<table class="table table-striped m-0">
+    <thead>
+        <tr>
+            <th colspan="2">Zone</th>
+        </tr>
+        <tr>
+            <td>Zone Name</td>
+            <td>IsActive</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for(int i = 0; i < Model.Rows.Count; i++)
+        {
+            <tr>
+                <td><a href="/Admin/ZoneDetails/@Model.Rows[i]["ZoneId"]">@Model.Rows[i]["ZoneName"]</a></td>
+                <td>@Model.Rows[i]["IsActive"]</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+
+

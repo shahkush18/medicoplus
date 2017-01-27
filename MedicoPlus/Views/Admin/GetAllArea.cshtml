@@ -1,0 +1,32 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewBag.Title = "GetAllArea";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>GetAllArea</h2>
+<table class="table table-striped m-0">
+    <thead>
+        <tr>
+            <td>AreaId</td>
+            <td>AreaName</td>
+            <td>ZoneId</td>
+            <td>IsActive</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Rows.Count; i++)
+        {
+            <tr>
+                <td>@Model.Rows[i]["AreaId"]</td>
+                <td>@Model.Rows[i]["AreaName"]</td>
+                <td>@Model.Rows[i]["ZoneId"]</td>
+                <td>@Model.Rows[i]["IsActive"]</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>

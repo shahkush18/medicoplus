@@ -1,0 +1,33 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewBag.Title = "CreateArea";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>CreateArea</h2>
+<form action="CreateArea" method="post">
+    <div class="form-group">
+    <label>Area Name </label>
+    <input type="text" name="AName" placeholder="Area Name" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Zone Name</label>
+    <select name="ZoneId">
+        @for (int i = 0; i < Model.Rows.Count; i++)
+        {
+            <option value="@Model.Rows[i]["ZoneId"]">@Model.Rows[i]["ZoneName"]</option>
+        }
+    </select>
+
+</div>
+<div class="form-group">
+    <div class="checkbox checkbox-primary">
+        <input type="checkbox" name="IsActive" value="true" />
+        <label>IsActive</label>
+    </div>
+</div>
+
+<button type="submit" value="Add Area" class="btn btn-purple waves-effect waves-light">Submit</button>
+
+</form>

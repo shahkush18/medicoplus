@@ -1,0 +1,36 @@
+﻿@using MedicoPlus.Models
+@using System.Data
+@model DataTable
+@{
+    ViewBag.Title = "ZoneDetails";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+    ZoneModel Z = ViewBag.ZoneModel;
+}
+
+<h2>Zone</h2>
+
+
+<table class="table table-striped m-0">
+    <thead>
+        <tr>
+            <td colspan="2">Area</td>
+        </tr>
+        <tr>
+            <td>Area Name</td>
+            <td>IsActive</td>
+        </tr>
+    </thead>
+    <tbody>
+        @for(int i = 0; i < Model.Rows.Count; i++)
+        {
+            <tr>
+                <td>@Model.Rows[i]["AreaName"]</td>
+                <td>@Model.Rows[i]["IsActive"]</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+

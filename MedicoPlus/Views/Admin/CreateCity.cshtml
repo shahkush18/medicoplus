@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "CreateCity";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>CreateCity</h2>
+<form action="CreateCity" method="post">
+    <div class="form-group">
+        <label>CityName </label>
+        <input type="text" name="CName" placeholder="City Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="checkbox checkbox-primary" >
+            <input type="checkbox" name="IsActive" value="true" />
+           <label>IsActive</label>
+         </div>
+    </div>       
+        
+         <button type="submit" value="Add City" class="btn btn-purple waves-effect waves-light" >Submit</button>
+    
+</form>
