@@ -515,9 +515,6 @@
     <Content Include="Scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\myTemplate\assets\fonts\fontawesome-webfont3295.eot" />
     <Content Include="Content\myTemplate\assets\fonts\fontawesome-webfont3295.ttf" />
     <Content Include="Content\myTemplate\assets\fonts\fontawesome-webfont3295.woff" />

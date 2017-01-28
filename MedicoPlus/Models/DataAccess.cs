@@ -12,7 +12,7 @@ namespace MedicoPlus.Models
         public static int ModifyData(string query, List<SqlParameter> lstParams)
         {
             SqlConnection connection1 = new SqlConnection();
-            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS; Initial Catalog=medicoPlus1; Integrated Security=true;";
+            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS; Initial Catalog=MedicoPlusDB; Integrated Security=true;";
 
             SqlCommand command1 = new SqlCommand();
             command1.CommandText = query;
@@ -33,7 +33,7 @@ namespace MedicoPlus.Models
         public static DataTable SelectData(string query, List<SqlParameter> lstParams)
         {
             SqlConnection connection1 = new SqlConnection();
-            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS; Initial Catalog=MedicoPlus1; Integrated Security=true;";
+            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS; Initial Catalog=MedicoPlusDB; Integrated Security=true;";
 
             SqlCommand command1 = new SqlCommand();
             command1.CommandText = query;
