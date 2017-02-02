@@ -58,7 +58,7 @@ namespace MedicoPlus.Models
         public DataTable SelectAllZoneById()
         {
             SqlConnection connection1 = new SqlConnection();
-            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=MedicoPlus1;Integrated Security=true";
+            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=MedicoPlus;Integrated Security=true";
             SqlCommand command1 = new SqlCommand();
             command1.CommandText = "SELECT * FROM Zone WHERE CityId="+this.CityId;
             command1.Connection = connection1;
