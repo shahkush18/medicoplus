@@ -26,6 +26,19 @@ namespace MedicoPlus.Models
             List<SqlParameter> lstParam = new List<SqlParameter>();
             return DataAccess.SelectData(query, lstParam);
         }
+        public DiseaseModel SelectDiseaseById()
+        {
+            string query = "SELECT * FROM Disease WHERE DiseaseId = @DiseaseId";
+            List<SqlParameter> lstParam = new List<SqlParameter>();
+            lstParam.Add(new SqlParameter("@DiseaseId",this.DiseaseId));
+            DataTable dt = DataAccess.SelectData(query, lstParam);
+            DiseaseModel dis = new DiseaseModel();
+            dis.DiseaseId = Convert.ToInt32(dt.Rows[0]["DiseaseId"]);
+            dis.DiseaseName = Convert.ToString(dt.Rows[0]["DiseaseName"]);
+            dis.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
+
+            return dis;
+        }
 
     }
 }

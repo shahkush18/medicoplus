@@ -3754,7 +3754,9 @@
 	 * Update the header, footer and body tables for resizing - i.e. column
 	 * alignment.
 	 *
-	 * Welcome to the most horrible function DataTables. The process that this
+	 * 
+
+ to the most horrible function DataTables. The process that this
 	 * function follows is basically:
 	 *   1. Re-create the table inside the scrolling div
 	 *   2. Take live measurements from the DOM

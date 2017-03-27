@@ -66,6 +66,9 @@ namespace MedicoPlus.Models
              connection1.Open();
              dataAdapter.Fill(dt);
              connection1.Close();
+             this.CityName = Convert.ToString(dt.Rows[0]["CityName"]);
+            this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
+
              return dt;
           /*  string query = "SELECT * FROM City WHERE CityId=@CityId ";
             List<SqlParameter> lstParams = new List<SqlParameter>();

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MedicoPlus.Models;
+using System.Data;
+using ClosedXML.Excel;
+using System.IO;
+
 namespace MedicoPlus.Controllers
 {
     public class DoctorController : Controller
@@ -72,6 +76,73 @@ namespace MedicoPlus.Controllers
                 return RedirectToAction("DLogin");
             }
         }
+        public ActionResult AddReport()
+        {
+            DataTable dt = new DiseaseModel().SelectAll();
+            Report rep = new Report();
+
+            DataTable reports = rep.SelectAllReport(1);
+
+            ViewBag.Reports = reports;
+
+            return View(dt);
+
+           
+
+        }
+        [HttpPost]
+        public ActionResult AddReport(FormCollection collection)
+        {
+            Report rep = new Report();
+            rep.AreaId = 1;
+            rep.CityId = 1;
+            DoctorModel d = (DoctorModel)Session["Doctor"];
+            rep.DoctorId = 1;
+            rep.DiseaseId = Convert.ToInt32(collection["DiseaseId"]);
+            rep.PatientName = Convert.ToString(collection["PatientName"]);
+            rep.PatientAddress = Convert.ToString(collection["PatientAddress"]);
+            DiseaseModel dis = new DiseaseModel();
+            dis.DiseaseId = Convert.ToInt32(collection["DiseaseId"]);
+            DiseaseModel dis2 = dis.SelectDiseaseById();
+            rep.DiseaseName = dis2.DiseaseName;
+
+            rep.InsertReport();
+
+            return RedirectToAction("AddReport");
+        }
+        public ActionResult ExportData()
+        {
+            DataTable disease = new DiseaseModel().SelectAll();
+            Report rep = new Report();
+            DataTable dt = rep.SelectAllReport(1);
+            
+
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                wb.Style.Font.Bold = true;
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;filename= EmployeeReport.xlsx");
+
+                using (MemoryStream MyMemoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(MyMemoryStream);
+                    MyMemoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+            return RedirectToAction("AddReport");
+        }
+
+
+
 
     }
 }
