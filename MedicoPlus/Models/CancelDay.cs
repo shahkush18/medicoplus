@@ -24,6 +24,15 @@ namespace MedicoPlus.Models
             
             return dt;
         }
+        public int InsertCancelDay() {
+            string query = "Insert into CancelDay(DoctorLocationId , CancelDate) VALUES(@DoctorLocationId , @CancelDate)";
+            List<SqlParameter> lstparam = new List<SqlParameter>();
+            lstparam.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
+            lstparam.Add(new SqlParameter("@CancelDate", this.CancelDate));
+
+            return DataAccess.ModifyData(query, lstparam);
+
+        }
 
     }
 }

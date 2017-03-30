@@ -12,8 +12,8 @@ namespace MedicoPlus.Models
         public int AppointmentId { get; set; }
         public int AppUserId { get; set; }
         public int DoctorLocationId { get; set; }
-        public string SubmitDate { get; set; }
-        public string AppDate { get; set; }
+        public DateTime SubmitDate { get; set; }
+        public DateTime AppDate { get; set; }
         public string VisitDate { get; set; }
         public string Status { get; set; }
         public string PatientName { get; set; }
@@ -64,6 +64,13 @@ namespace MedicoPlus.Models
             DataTable dt = DataAccess.SelectData(query, lstparams);
             return dt;
         }
+        public int CheckNoOfAppointment() {
 
+            string query = "SELECT * FROM APPOINTMENT WHERE DoctorLocationId = @DoctorLocationId AND AppDate = @AppDate";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
+            lstparams.Add(new SqlParameter("@AppDate", this.AppDate));
+            return (DataAccess.SelectData(query,lstparams)).Rows.Count;
+        }
     }
 }

@@ -81,19 +81,43 @@ namespace MedicoPlus.Controllers
                 return RedirectToAction("Login");
             }
         }
+        [HttpPost]
         public ActionResult BookAppointment(FormCollection collection)
         {
+            DoctorLocation docLoc = new DoctorLocation();
+            List<int> timeSlot = new List<int>();
+            docLoc.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
+            for (int i = docLoc.StartTime.Hour; i< docLoc.EndTime.Hour; i++) {
+                timeSlot.Add(i);
+            }
+
             Appointment a = new Appointment();
             a.AppUserId = ((AppUserModel)Session["Appuser"]).AppUserId;
             a.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
-            a.SubmitDate = Convert.ToString(DateTime.Now);
-            a.AppDate = Convert.ToString(collection["AppDate"]);
+            a.SubmitDate = Convert.ToDateTime(DateTime.Now);
+            a.AppDate = Convert.ToDateTime(collection["AppDate"]);
             a.PatientName = Convert.ToString(collection["PatientName"]);
             a.Age = Convert.ToInt32(collection["Age"]);
 
 
 
-            return RedirectToAction("AppuserController", "Index");
+            return RedirectToAction("AppuserController", "BookAppointment");
+
+        }
+        [HttpGet]
+        public ActionResult BookAppointment()
+        {
+            DoctorLocation docLoc = new DoctorLocation();
+            List<int> timeSlot = new List<int>();
+            docLoc.DoctorLocationId = 1;
+            for (int i = docLoc.StartTime.Hour; i < docLoc.EndTime.Hour; i++)
+            {
+                timeSlot.Add(i);
+            }
+            ViewBag.timeSlot = timeSlot;
+
+
+            return View();
 
         }
 

@@ -230,6 +230,7 @@
     <Compile Include="Models\CityModel.cs" />
     <Compile Include="Models\DataAccess.cs" />
     <Compile Include="Models\DiseaseModel.cs" />
+    <Compile Include="Models\DoctorLocation.cs" />
     <Compile Include="Models\DoctorModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -639,6 +640,8 @@
     <Content Include="Views\Doctor\AddReport.cshtml" />
     <Content Include="Views\AppUser\UserProfile.cshtml" />
     <Content Include="Views\AppUser\SignUp.cshtml" />
+    <Content Include="Views\Doctor\AddLocation.cshtml" />
+    <Content Include="Views\AppUser\BookAppointment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -140,6 +140,32 @@ namespace MedicoPlus.Controllers
             }
             return RedirectToAction("AddReport");
         }
+        public ActionResult AddLocation()
+        {
+            DoctorModel dr = new DoctorModel();
+            dr.DoctorId = 1;
+            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddLocation(FormCollection collection)
+        {
+            DoctorLocation docLoc = new DoctorLocation();
+            docLoc.DoctorId = 1;
+            docLoc.StartTime = Convert.ToDateTime(collection["StartTime"]);
+            docLoc.EndTime= Convert.ToDateTime(collection["EndTime"]);
+            docLoc.DaysOfWork = Convert.ToString(collection["DaysOfWork"]);
+            docLoc.Address = Convert.ToString(collection["Address"]);
+            docLoc.CityId = Convert.ToInt32(collection["CityId"]);
+            docLoc.AreaId = Convert.ToInt32(collection["AreaId"]);
+            docLoc.UserName = Convert.ToString(collection["Address"]);
+            docLoc.Password = Convert.ToString(collection["Password"]);
+            docLoc.Affilation = Convert.ToString(collection["Affiliation"]);
+            docLoc.Phone = Convert.ToString(collection["Phone"]);
+
+            docLoc.InsertDoctorLocation();
+            return RedirectToAction("AddLocation");
+        }
 
 
 
