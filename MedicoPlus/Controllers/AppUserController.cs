@@ -87,19 +87,30 @@ namespace MedicoPlus.Controllers
             DoctorLocation docLoc = new DoctorLocation();
             List<int> timeSlot = new List<int>();
             docLoc.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
+            docLoc.SelectByDoctorLocationId();
+            DoctorModel doctor = new DoctorModel();
+            doctor.DoctorId = docLoc.DoctorId;
+            doctor.SelectById();
             for (int i = docLoc.StartTime.Hour; i< docLoc.EndTime.Hour; i++) {
                 timeSlot.Add(i);
             }
+            Appointment aCheck = new Appointment();
+            aCheck.AppTime = Convert.ToInt32(collection["AppDate"]);
+            aCheck.AppDate = Convert.ToDateTime(collection["AppTime"]);
+            aCheck.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
 
-            Appointment a = new Appointment();
-            a.AppUserId = ((AppUserModel)Session["Appuser"]).AppUserId;
-            a.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
-            a.SubmitDate = Convert.ToDateTime(DateTime.Now);
-            a.AppDate = Convert.ToDateTime(collection["AppDate"]);
-            a.PatientName = Convert.ToString(collection["PatientName"]);
-            a.Age = Convert.ToInt32(collection["Age"]);
+            if (aCheck.CheckNoOfAppointment() < doctor.MaxApptPerHour)
+            {
+                Appointment a = new Appointment();
+                a.AppUserId = ((AppUserModel)Session["Appuser"]).AppUserId;
+                a.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
+                a.SubmitDate = Convert.ToDateTime(DateTime.Now);
+                a.AppDate = Convert.ToDateTime(collection["AppDate"]);
+                a.PatientName = Convert.ToString(collection["PatientName"]);
+                a.Age = Convert.ToInt32(collection["Age"]);
+                a.InsertAppointment();
 
-
+            }
 
             return RedirectToAction("AppuserController", "BookAppointment");
 

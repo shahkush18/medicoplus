@@ -31,10 +31,11 @@ namespace MedicoPlus.Models
         public string StoreStatus { get; set; }
         public string Feedback { get; set; }
         public string Rating { get; set; }
+        public int AppTime { get; set; }
 
         public int InsertAppointment()
         {
-            string query = "Insert INTO Appointment(AppuserId,DoctorLocationId,SubmitDate,AppDate,Status,PatientName,Age,Phone,Address) Values(@AppuserId,@DoctorLocationId,@SubmitDate,@AppDate,@StatusPatientName,@Age,@Phone,@Address)";
+            string query = "Insert INTO Appointment(AppuserId,DoctorLocationId,SubmitDate,AppDate,Status,PatientName,Age,Phone,Address,AppTime) Values(@AppuserId,@DoctorLocationId,@SubmitDate,@AppDate,@StatusPatientName,@Age,@Phone,@Address,@AppTime)";
             List<SqlParameter> lstparam = new List<SqlParameter>();
             lstparam.Add(new SqlParameter("@AppuserId", this.AppUserId));
             lstparam.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
@@ -45,6 +46,7 @@ namespace MedicoPlus.Models
             lstparam.Add(new SqlParameter("@Age", this.Age));
             lstparam.Add(new SqlParameter("@Phone", this.Phone));
             lstparam.Add(new SqlParameter("@Address", this.Address));
+            lstparam.Add(new SqlParameter("@AppTime", this.AppTime));
             return DataAccess.ModifyData(query,lstparam);
             
         }
@@ -66,10 +68,11 @@ namespace MedicoPlus.Models
         }
         public int CheckNoOfAppointment() {
 
-            string query = "SELECT * FROM APPOINTMENT WHERE DoctorLocationId = @DoctorLocationId AND AppDate = @AppDate";
+            string query = "SELECT * FROM APPOINTMENT WHERE DoctorLocationId = @DoctorLocationId,AppTime =@AppTime AND AppDate = @AppDate";
             List<SqlParameter> lstparams = new List<SqlParameter>();
             lstparams.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
             lstparams.Add(new SqlParameter("@AppDate", this.AppDate));
+            lstparams.Add(new SqlParameter("@AppTime", this.AppTime));
             return (DataAccess.SelectData(query,lstparams)).Rows.Count;
         }
     }

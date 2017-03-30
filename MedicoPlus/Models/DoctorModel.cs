@@ -75,10 +75,21 @@ namespace MedicoPlus.Models
             }
 
 
+
+
         }
-        
+        public DataTable SelectById()
+        {
+            string query = "SELECT * FROM Doctor WHERE DoctorId = @DoctorId";
+
+            List<SqlParameter> lstParams = new List<SqlParameter>();
+            lstParams.Add(new SqlParameter("@DoctorId", this.DoctorId));
+            
+            DataTable dt = DataAccess.SelectData(query, lstParams);
+
+            this.MaxApptPerHour = Convert.ToInt32(dt.Rows[0]["MaxApptPerHour "]);
+        }
     }
-}
 
 
 
