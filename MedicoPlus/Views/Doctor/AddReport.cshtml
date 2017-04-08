@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "AddReport";
     DataTable reports =(DataTable) ViewBag.Reports;
-    Layout = "~/Views/Shared/_mytemplate.cshtml";
+    Layout = "~/Views/Shared/_medicoDoctor.cshtml";
+    DataTable city = (DataTable)ViewBag.City;
+    DataTable Area = (DataTable)ViewBag.Area;
 }
 
 
@@ -22,6 +24,67 @@
                 <textarea class="form-control" rows="5" name="PatientAddress"></textarea>
             </div>
         </div>
+        <div class="form-group ">
+            <label class="col-md-2 control-label">City</label>
+            <div class="col-md-10">
+                <select class="form-control" name="CityId">
+                    @for (int i = 0; i < city.Rows.Count; i++)
+                    {
+                        <option value=@city.Rows[i]["CityId"]>@city.Rows[i]["CityName"]</option>
+
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-md-2 control-label">Area</label>
+            <div class="col-md-10">
+                <select class="form-control" name="AreaId">
+                    @for (int i = 0; i < Area.Rows.Count; i++)
+                    {
+                        <option value=@Area.Rows[i]["AreaId"]>@Area.Rows[i]["AreaName"]</option>
+
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Gender: </label>
+            <div class="col-md-10">
+                <div class="radio radio-info radio-inline">
+                    <input type="radio" id="inlineRadio1" value="Male" name="Gender">
+                    <label for="inlineRadio1"> Male </label>
+                </div>
+                <div class="radio radio-inline">
+                    <input type="radio" id="inlineRadio2" value="Female" name="Gender">
+                    <label for="inlineRadio2"> Female </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Mobile</label>
+            <div class="col-md-10">
+                <input type="number" class="form-control" name="Mobile">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Age</label>
+            <div class="col-md-10">
+                <input type="number" class="form-control" name="Age">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Occupation</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="Occupation">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Date</label>
+            <div class="col-md-10">
+                <input type="date" class="form-control" name="Date">
+            </div>
+        </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Disease</label>
             <div class="col-sm-10">
@@ -38,37 +101,5 @@
         <br />
     </form>
 </div>
-<div class="col-md-10">
-<h2>Previously Submitted Reports</h2>
-<table class="table table-striped m-0">
-    <thead>
-        <tr>
-            <th>Disease Name</th>
-            <th>Patient Name</th>
-            <th>Patient Address</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < reports.Rows.Count; i++)
-        {
-            <tr>
-                <td>@reports.Rows[i]["DiseaseName"]</td>
-                <td>@reports.Rows[i]["PatientName"]</td>
-                <td>@reports.Rows[i]["PatientAddress"]</td>
 
-            </tr>
-        }
-    </tbody>
-</table>
-</div>
-<div class="col-md-6">
-    
-    <form action="/Doctor/ExportData" method="Post" enctype="multipart/form-data" class="form-horizontal" role="form">
-        <div align="center">
-            <button type="submit" class="btn btn-purple waves-effect waves-light">Export</button>
-        </div>
 
-        <br />
-        <br />
-    </form>
-</div>

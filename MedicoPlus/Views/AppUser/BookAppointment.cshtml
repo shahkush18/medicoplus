@@ -1,132 +1,88 @@
-﻿
+﻿@model MedicoPlus.Models.DoctorLocation
+@using MedicoPlus.Models;
 @{
-    ViewBag.Title = "BookAppointmnet";
-    Layout = "~/Views/Shared/_mytemplate.cshtml";
+    
+    ViewBag.Title = "BookAppointment";
+    Layout = " ~/Views/Shared/_AppUserLayout.cshtml";
+    List<int> timeSlot = ViewBag.timeSlot;
+    string error = ViewBag.error_found;
+    DoctorModel doctor = ViewBag.Doctor;
 }
-<head>
-    <link rel="shortcut icon" href="assets/images/favicon_1.ico">
+<body class="smallscreen fixed-left-void">
 
-    <title>Booking form</title>
-
-    <!--Morris Chart CSS -->
-    <link rel="stylesheet" href="assets/plugins/morris/morris.css">
-
-    <link href=@Url.Content("/Content/myTemplate/assets/css/bootstrap.min.css") rel="stylesheet" type="text/css">
-    <link href=@Url.Content("/Content/myTemplate/assets/css/core.css") rel="stylesheet" type="text/css">
-    <link href=@Url.Content("/Content/myTemplate/assets/css/components.css") rel="stylesheet" type="text/css">
-    <link href=@Url.Content("/Content/myTemplate/assets/css/icons.css") rel="stylesheet" type="text/css">
-    <link href=@Url.Content("/Content/myTemplate/assets/css/pages.css") rel="stylesheet" type="text/css">
-    <link href=@Url.Content("/Content/myTemplate/assets/css/responsive.css") rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <script async="" src="../../../www.google-analytics.com/analytics.js"></script>
-    <script src=@Url.Content("/Content/myTemplate/assets/js/modernizr.min.js")></script>
-    <script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-69506598-1', 'auto');
-    ga('send', 'pageview');
-    </script>
-
-
-</head>
-<body>
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="page-title">JE RAKHVU HOI E</h4>
+                <h4 class="page-title">Appointment booking</h4>
+                <ol class="breadcrumb">
+                    <li>
+                        Book your appointment
+                    </li>
+                </ol>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <div class="card-box">
                     <div class="row">
-                        <div class="col-md-6">
-                            <form class="form-horizontal" role="form" action="/Doctor/AddLocation" method="post">
+                        <div class="col-md-12">
+                            <form class="form-horizontal" role="form" action="BookAppointment" method="post">
+                                <h4 align="center" class="m-t-0 header-title"><b>Booking Appointment</b></h4>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">DoctorLocationId</label>
+                                    <label class="col-md-2 control-label">Doctor Name</label>
                                     <div class="col-md-10">
-                                        <input type="number" class="form-control" name="DoctorLocationId">
+                                        <input type="text" class="form-control" disabled value=@doctor.DocName name="doctorname">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">DoctorId</label>
+                                    <label class="col-md-2 control-label">Clinic Name</label>
                                     <div class="col-md-10">
-                                        <input type="number" class="form-control" name="DoctorId">
+                                        <input type="text" class="form-control" disabled value="@Model.ClinicName" name="clinicname">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">Start Time</label>
+                                    <label class="col-md-2 control-label">Clinic Address</label>
                                     <div class="col-md-10">
-                                        <input type="time" class="form-control" name="StartTime">
+                                        <textarea type="text" class="form-control" disabled name="clinicadress">@Model.Address</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">End Time</label>
-                                    <div class="col-md-10">
-                                        <input type="time" class="form-control" name="EndTime">
+                                    <label class="control-label col-sm-2">Appoinment Date</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" placeholder="DD/MM/YYYY" id="datepicker-autoclose" name="AppDate">
+                                            <span class="input-group-addon bg-custom b-0 text-white"><i class="icon-calender"></i></span>
+                                        </div><!-- input-group -->
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">Days Of Work</label>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" name="DaysOfWork">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Address</label>
-                                    <div class="col-md-10">
-                                        <textarea class="form-control" rows="5" name="Address"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">CityId</label>
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control" name="CityId">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">AreaId</label>
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control" name="AreaId">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Phone</label>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" minlength="10" maxlength="10" name="Phone">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Affiliation</label>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" name="Affiliation">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Username</label>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" name="Username">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">Password</label>
-                                    <div class="col-md-10">
-                                        <input type="password" class="form-control" name="password">
+                                    <label class="col-sm-2 control-label">Appointment time</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="AppTime">
+                                            @foreach (int time in timeSlot)
+                                            {
+                                                if (time > 12)
+                                                {
+                                                    var x = time - 12;
+                                                    <option value=@time>@x:00 AM</option>
+                                                }
+                                                else
+                                                {
+
+                                                    <option value=@time>@time:00 PM</option>
+                                                }
+
+
+
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-2 control-label"></div>
                                     <div class="col-md-10">
-                                        <button type="submit" class="btn btn-purple waves-effect waves-light">Submit</button>
+                                        @if(error != null) { <p>* Please fill every form Fields</p> }
+                                        <button type="submit" class="btn btn-purple waves-effect waves-light">Check</button>
                                     </div>
                                 </div>
                             </form>
@@ -135,6 +91,9 @@
                 </div>
             </div>
         </div>
-
-    </div>
+       </div>
+ 
 </body>
+
+
+   

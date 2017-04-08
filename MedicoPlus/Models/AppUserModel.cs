@@ -12,7 +12,7 @@ namespace MedicoPlus.Models
         public int AppUserId { get; set; }
         public string AUName { get; set; }
         public string Gender { get; set; }
-        public string DOB { get; set; }
+        public DateTime DOB { get; set; }
         public string Phone { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
@@ -26,7 +26,7 @@ namespace MedicoPlus.Models
         public int InsertAppUser()
         {
 
-            string query = "Insert INTO AppUser VALUES (@AUName,@Gender,@DOB,@Phone,@Mobile,@Email,@Address,@AreaId,@CityId,@IsActive,@Password,@Photo)";
+            string query = "Insert INTO AppUser(AUName,Gender,DOB,Phone,Mobile,Email,Address,AreaId,CityId,IsActive,Password,Photo) VALUES (@AUName,@Gender,@DOB,@Phone,@Mobile,@Email,@Address,@AreaId,@CityId,@IsActive,@Password,@Photo)";
             List<SqlParameter> lstParams = new List<SqlParameter>();
             lstParams.Add(new SqlParameter("@AUName", this.AUName));
             lstParams.Add(new SqlParameter("@Gender", this.Gender));
@@ -76,7 +76,7 @@ namespace MedicoPlus.Models
             this.Password = Convert.ToString(dt.Rows[0]["Password"]);
             this.Mobile = Convert.ToString(dt.Rows[0]["Mobile"]);
             this.Photo = Convert.ToString(dt.Rows[0]["Photo"]);
-            this.DOB = Convert.ToString(dt.Rows[0]["DOB"]);
+            this.DOB = Convert.ToDateTime(dt.Rows[0]["DOB"]);
             return dt;
 
         }
@@ -91,12 +91,13 @@ namespace MedicoPlus.Models
 
             if (dt.Rows.Count > 0)
             {
+                this.AppUserId = Convert.ToInt32(dt.Rows[0]["AppUserid"]);
                 this.AUName = dt.Rows[0]["AUName"].ToString();
                 this.Password = dt.Rows[0]["Password"].ToString();
                 this.Mobile = dt.Rows[0]["AreaId"].ToString();
                 this.Phone = dt.Rows[0]["Phone"].ToString();
                 this.Address = dt.Rows[0]["Address"].ToString();
-                this.DOB = dt.Rows[0]["DOB"].ToString();
+                this.DOB = Convert.ToDateTime(dt.Rows[0]["DOB"]);
                 this.Email = dt.Rows[0]["Email"].ToString();
                 this.AppUserId = Convert.ToInt32(dt.Rows[0]["AppUserId"]);
                 this.Gender = dt.Rows[0]["Gender"].ToString();

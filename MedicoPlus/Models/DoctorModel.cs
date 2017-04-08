@@ -16,8 +16,8 @@ namespace MedicoPlus.Models
         public string Gender { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
-        public string DOB { get; set; }
-        public string DOJ { get; set; }
+        public DateTime DOB { get; set; }
+        public DateTime DOJ { get; set; }
         public string Status { get; set; }
         public int SpecialityId { get; set; }
         public string Qualification { get; set; }
@@ -31,7 +31,7 @@ namespace MedicoPlus.Models
         public int InsertDoctor()
         {
 
-            string query = "InsertCity INTO Doctor VALUES (@DocName,@Intro,@Photo,@Gender, @Mobile,@Email, @DOB, @DOJ,@Status,@SpecialityId,@Qualification,@MinConsultationFee,Documents, @MaxApptPerHour,@UserName,@Password)";
+            string query = "Insert INTO Doctor(DocName,Intro,Photo,Gender, Mobile,Email, DOB, DOJ,Status,SpecialityId,Qualification,MinConsultationFee,Documents, MaxApptPerHour,UserName,Password) VALUES (@DocName,@Intro,@Photo,@Gender, @Mobile,@Email, @DOB, @DOJ,@Status,@SpecialityId,@Qualification,@MinConsultationFee,@Documents, @MaxApptPerHour,@UserName,@Password)";
             List<SqlParameter> lstParams = new List<SqlParameter>();
             lstParams.Add(new SqlParameter("@DocName", this.DocName));
             lstParams.Add(new SqlParameter("@Intro", this.Intro));
@@ -66,6 +66,7 @@ namespace MedicoPlus.Models
                 this.UserName = dt.Rows[0]["UserName"].ToString();
                 this.Password = dt.Rows[0]["Password"].ToString();
                 this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
+                this.DoctorId = Convert.ToInt32(dt.Rows[0]["DoctorId"]);
 
                 return true;
             }
@@ -78,18 +79,58 @@ namespace MedicoPlus.Models
 
 
         }
+        //My Code
+        //public DataTable SelectById()
+        //{
+        //    string query = "SELECT * FROM Doctor WHERE DoctorId = @DoctorId";
+
+        //    List<SqlParameter> lstParams = new List<SqlParameter>();
+        //    lstParams.Add(new SqlParameter("@DoctorId", this.DoctorId));
+
+        //    DataTable dt = DataAccess.SelectData(query, lstParams);
+        //    this.DocName = Convert.ToString(dt.Rows[0]["DocName"]);
+        //    this.MaxApptPerHour = Convert.ToInt32(dt.Rows[0]["MaxApptPerHour"]);
+
+        //    return dt;
+        //}
+        //Karans Code
         public DataTable SelectById()
         {
-            string query = "SELECT * FROM Doctor WHERE DoctorId = @DoctorId";
-
-            List<SqlParameter> lstParams = new List<SqlParameter>();
-            lstParams.Add(new SqlParameter("@DoctorId", this.DoctorId));
-            
-            DataTable dt = DataAccess.SelectData(query, lstParams);
-
-            this.MaxApptPerHour = Convert.ToInt32(dt.Rows[0]["MaxApptPerHour "]);
+            string query = "SELECT * FROM Doctor WHERE DoctorId = @id";
+            List<SqlParameter> lstParam = new List<SqlParameter>();
+            lstParam.Add(new SqlParameter("@id", this.DoctorId));
+            DataTable dt = DataAccess.SelectData(query, lstParam);
+            if (dt.Rows.Count > 0)
+            {
+                this.DoctorId = Convert.ToInt32(dt.Rows[0]["DoctorId"]);
+                this.DocName = dt.Rows[0]["DocName"].ToString();
+                this.UserName = dt.Rows[0]["Username"].ToString();
+                this.Password = dt.Rows[0]["Password"].ToString();
+                this.IsActive = Convert.ToBoolean(dt.Rows[0]["isActive"]);
+                this.Intro = dt.Rows[0]["Intro"].ToString();
+                this.Photo = dt.Rows[0]["Photo"].ToString();
+                this.Gender = dt.Rows[0]["Gender"].ToString();
+                this.Mobile = dt.Rows[0]["Mobile"].ToString();
+                this.Email = dt.Rows[0]["Email"].ToString();
+                this.DOB = Convert.ToDateTime(dt.Rows[0]["DOB"]);
+                this.DOJ = Convert.ToDateTime(dt.Rows[0]["DOJ"]);
+                this.Status = dt.Rows[0]["Status"].ToString();
+                this.SpecialityId = Convert.ToInt32(dt.Rows[0]["SpecialityId"]);
+                this.Qualification = dt.Rows[0]["Qualification"].ToString();
+                this.MinConsultationFee = Convert.ToInt32(dt.Rows[0]["MinConsultationFee"]);
+                this.Documents = dt.Rows[0]["Documents"].ToString();
+                this.MaxApptPerHour = Convert.ToInt32(dt.Rows[0]["MaxApptPerHour"]);
+            }
+            return dt;
         }
+        public DataTable SelectAllDoctor() {
+            string query = "SELECT Doctor.DocName,Doctor.Qualification,Doctor.MinConsultationFee, Speciality.SpName FROM Doctor INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId";
+            List<SqlParameter> lstParam = new List<SqlParameter>();
+            return DataAccess.SelectData(query,lstParam);
+        }
+
     }
+}
 
 
 

@@ -21,10 +21,11 @@ namespace MedicoPlus.Models
         public string Affilation { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string ClinicName { get; set; }
 
         public int InsertDoctorLocation()
         {
-            string query = "Insert INTO DoctorLocation(StartTime,DoctorId,EndTime,DaysOfWork,Address,CityId,AreaId,Phone,Affiliation,UserName,Password) Values(@StartTime,@DoctorId,@EndTime,@DaysOfWork,@Address,@CityId,@AreaId,@Phone,@Affilation,@UserName,@Password)";
+            string query = "Insert INTO DoctorLocation(StartTime,DoctorId,EndTime,DaysOfWork,Address,CityId,AreaId,Phone,Affiliation,UserName,Password,ClinicName) Values(@StartTime,@DoctorId,@EndTime,@DaysOfWork,@Address,@CityId,@AreaId,@Phone,@Affilation,@UserName,@Password,@ClinicName)";
             List<SqlParameter> lstparam = new List<SqlParameter>();
             lstparam.Add(new SqlParameter("@StartTime", this.StartTime));
             lstparam.Add(new SqlParameter("@DoctorId", this.DoctorId));
@@ -37,6 +38,7 @@ namespace MedicoPlus.Models
             lstparam.Add(new SqlParameter("@Affilation", this.Affilation));
             lstparam.Add(new SqlParameter("@UserName", this.UserName));
             lstparam.Add(new SqlParameter("@Password", this.Password));
+            lstparam.Add(new SqlParameter("@ClinicName", this.ClinicName));
             return DataAccess.ModifyData(query, lstparam);
 
         }
@@ -44,7 +46,7 @@ namespace MedicoPlus.Models
 
         public DataTable SelectByDoctorId()
         {
-            string query = "Select * from DoctorLocation WHERE DoctorId = @DoctorId";
+            string query = "SELECT DoctorLocation.ClinicName , City.CityName , Area.AreaName FROM DoctorLocation INNER JOIN City ON DoctorLocation.CityId = City.CityId INNER JOIN Area ON DoctorLocation.AreaId = Area.AreaId WHERE DoctorLocation.DoctorId = @DoctorId";
             List<SqlParameter> lstparams = new List<SqlParameter>();
             lstparams.Add(new SqlParameter("@DoctorId", this.DoctorId));
             DataTable dt = DataAccess.SelectData(query, lstparams);
@@ -84,7 +86,7 @@ namespace MedicoPlus.Models
         {
             string query = "Select * from DoctorLocation WHERE DoctorLocationId = @DoctorLocationId";
             List<SqlParameter> lstparams = new List<SqlParameter>();
-            lstparams.Add(new SqlParameter("@DoctorId", this.DoctorLocationId));
+            lstparams.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
             DataTable dt = DataAccess.SelectData(query, lstparams);
             this.DoctorId = Convert.ToInt32(dt.Rows[0]["DoctorId"]);
             this.StartTime = Convert.ToDateTime(dt.Rows[0]["StartTime"]);
@@ -97,7 +99,7 @@ namespace MedicoPlus.Models
             this.Affilation = Convert.ToString(dt.Rows[0]["Affiliation"]);
             this.UserName = Convert.ToString(dt.Rows[0]["UserName"]);
             this.Password = Convert.ToString(dt.Rows[0]["Password"]);
-
+            this.ClinicName = Convert.ToString(dt.Rows[0]["ClinicName"]);
             return dt;
         }
 

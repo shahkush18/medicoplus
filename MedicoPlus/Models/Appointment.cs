@@ -14,7 +14,7 @@ namespace MedicoPlus.Models
         public int DoctorLocationId { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime AppDate { get; set; }
-        public string VisitDate { get; set; }
+        public DateTime VisitDate { get; set; }
         public string Status { get; set; }
         public string PatientName { get; set; }
         public int Age { get; set; }
@@ -31,22 +31,25 @@ namespace MedicoPlus.Models
         public string StoreStatus { get; set; }
         public string Feedback { get; set; }
         public string Rating { get; set; }
-        public int AppTime { get; set; }
+        public string AppTime { get; set; }
+        public string Occupation { get; set; }
 
         public int InsertAppointment()
         {
-            string query = "Insert INTO Appointment(AppuserId,DoctorLocationId,SubmitDate,AppDate,Status,PatientName,Age,Phone,Address,AppTime) Values(@AppuserId,@DoctorLocationId,@SubmitDate,@AppDate,@StatusPatientName,@Age,@Phone,@Address,@AppTime)";
+            string query = "Insert INTO Appointment(AppuserId,DoctorLocationId,SubmitDate,AppDate,Status,PatientName,Age,Phone,Address,AppTime,Occupation,Symptom) Values(@AppuserId,@DoctorLocationId,@SubmitDate,@AppDate,@Status,@PatientName,@Age,@Phone,@Address,@AppTime,@Occupation,@Symptoms)";
             List<SqlParameter> lstparam = new List<SqlParameter>();
             lstparam.Add(new SqlParameter("@AppuserId", this.AppUserId));
             lstparam.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
-            lstparam.Add(new SqlParameter("@SubmitDate", this.SubmitDate));
+            lstparam.Add(new SqlParameter("@SubmitDate",this.SubmitDate));
             lstparam.Add(new SqlParameter("@AppDate", this.AppDate));
-            lstparam.Add(new SqlParameter("@Staus", "PENDING"));
+            lstparam.Add(new SqlParameter("@Status", "PENDING"));
             lstparam.Add(new SqlParameter("@PatientName", this.PatientName));
             lstparam.Add(new SqlParameter("@Age", this.Age));
             lstparam.Add(new SqlParameter("@Phone", this.Phone));
             lstparam.Add(new SqlParameter("@Address", this.Address));
             lstparam.Add(new SqlParameter("@AppTime", this.AppTime));
+            lstparam.Add(new SqlParameter("@Occupation", this.Occupation));
+            lstparam.Add(new SqlParameter("@Symptoms", this.Symptoms));
             return DataAccess.ModifyData(query,lstparam);
             
         }
@@ -68,12 +71,47 @@ namespace MedicoPlus.Models
         }
         public int CheckNoOfAppointment() {
 
-            string query = "SELECT * FROM APPOINTMENT WHERE DoctorLocationId = @DoctorLocationId,AppTime =@AppTime AND AppDate = @AppDate";
+            string query = "SELECT * FROM APPOINTMENT WHERE DoctorLocationId = @DoctorLocationId AND AppTime =@AppTime AND AppDate = @AppDate";
             List<SqlParameter> lstparams = new List<SqlParameter>();
             lstparams.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
             lstparams.Add(new SqlParameter("@AppDate", this.AppDate));
             lstparams.Add(new SqlParameter("@AppTime", this.AppTime));
             return (DataAccess.SelectData(query,lstparams)).Rows.Count;
+        }
+        public DataTable SelectByAppUserId()
+        {
+            string query = "Select Appointment.AppTime,Appointment.patientName , Appointment.AppDate , DoctorLocation.ClinicName , Doctor.DocName FROM Appointment INNER JOIN DoctorLocation ON Appointment.DoctorLocationID = DoctorLocation.DoctorLocationID INNER JOIN Doctor ON DoctorLocation.DoctorId = Doctor.DoctorId WHERE AppUserID = @AppUserID ORDER BY Appointment.SubmitDate DESC";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@AppUserId", this.AppUserId));
+            DataTable dt = DataAccess.SelectData(query, lstparams);
+            return dt;
+        }
+        public DataTable SelectPendingAppointments()
+        {
+            string query = "Select Appointment.AppTime ,Appointment.AppointmentID , Appointment.patientName , Appointment.AppDate , DoctorLocation.ClinicName , Doctor.DocName FROM Appointment INNER JOIN DoctorLocation ON Appointment.DoctorLocationID = DoctorLocation.DoctorLocationID INNER JOIN Doctor ON DoctorLocation.DoctorId = Doctor.DoctorId WHERE AppUserID = @AppUserID AND Appointment.Status = @Status ORDER BY Appointment.SubmitDate DESC";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@AppUserId", this.AppUserId));
+            lstparams.Add(new SqlParameter("@Status", "PENDING"));
+            DataTable dt = DataAccess.SelectData(query, lstparams);
+            return dt;
+        }
+        public int CancelAppointment()
+        {
+            string query = "DELETE FROM Appointment WHERE AppointmentId=@AppointmentId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@AppointmentId", this.AppointmentId));
+            
+            //DataTable dt = DataAccess.ModifyData(query, lstparams);
+            return DataAccess.ModifyData(query, lstparams); 
+        }
+        public DataTable SelectPendingDoctorAppointments(int DoctorId)
+        {
+            string query = "Select Appointment.AppTime ,Appointment.AppointmentID , Appointment.patientName , Appointment.AppDate , DoctorLocation.ClinicName , Doctor.DocName FROM Appointment INNER JOIN DoctorLocation ON Appointment.DoctorLocationID = DoctorLocation.DoctorLocationID INNER JOIN Doctor ON DoctorLocation.DoctorId = Doctor.DoctorId WHERE DoctorLocation.DoctorId = @DoctorId AND Appointment.Status = @Status ORDER BY Appointment.SubmitDate DESC";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@DoctorId", DoctorId));
+            lstparams.Add(new SqlParameter("@Status", "PENDING"));
+            DataTable dt = DataAccess.SelectData(query, lstparams);
+            return dt;
         }
     }
 }

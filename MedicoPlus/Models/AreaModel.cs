@@ -70,21 +70,7 @@ namespace MedicoPlus.Models
             dataAdapter.Fill(dt);
             connection1.Close();
             return dt;
-           /* string query = "SELECT * FROM Area WHERE ZoneId=@zoneId ";
-            List<SqlParameter> lstParams = new List<SqlParameter>();
-            lstParams.Add(new SqlParameter("@ZoneId", this.ZoneId));
-            DataTable dt = DataAccess.SelectData(query, lstParams);
-            if (dt.Rows.Count > 0)
-            {
-                this.AreaName = dt.Rows[0]["AreaName"].ToString();
-                this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }*/
+          
 
         }
     }

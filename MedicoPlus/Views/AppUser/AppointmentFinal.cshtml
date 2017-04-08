@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "AppointmentFinal";
+    Layout = "~/Views/Shared/_AppUserLayout.cshtml";
+    DateTime AppDate = ViewBag.AppDate;
+    string AppTime = ViewBag.AppTime;
+    bool error = false;
+    if (ViewBag.Error != null) {
+        error = ViewBag.Error;
+    }
+}
+
+<body class="smallscreen fixed-left-void">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="page-title">Appointment booking</h4>
+                <ol class="breadcrumb">
+                    <li>
+                        Book your appointment
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal" role="form" method="post" action="AppointmentFinal">
+                                <h4 align="center" class="m-t-0 header-title"><b>Booking Appointment</b></h4>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Patient Name</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" name="PatientName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Date of birth</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <input type="date" class="form-control"   name="DOB">
+                                            <span class="input-group-addon bg-custom b-0 text-white"><i class="icon-calender"></i></span>
+                                        </div><!-- input-group -->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Phone Number</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" minlength="10" maxlength="10" name="Phone">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Occupation</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" name="Occupation">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Address</label>
+                                    <div class="col-md-10">
+                                        <textarea class="form-control" name="Address" placeholder="Enter your Address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Symptoms</label>
+                                    <div class="col-md-10">
+                                        <textarea class="form-control" name="Symptoms" placeholder="Describe the illness."></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2 control-label"></div>
+                                    <div class="col-md-10">
+                                        <button type="submit" class="btn btn-purple waves-effect waves-light">Submit</button>
+                                        @if (error)
+                                        {
+                                            <p>* Please fill all form fields</p>
+                                        }
+
+                                    </div>
+                                </div>
+                                <input type="hidden" name="AppDate" value=@AppDate>
+                                <input type="hidden" name="AppTime" value=@AppTime>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+     
+
+
+</body>
+

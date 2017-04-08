@@ -15,16 +15,7 @@ namespace MedicoPlus.Models
 
         public int InsertCity()
         {
-            /* SqlConnection connection1 = new SqlConnection();
-             connection1.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=MedicoPlus;Integrated Security=true";
-             SqlCommand command1 = new SqlCommand();
-             command1.CommandText = "INSERT INTO City VALUES ('" + this.CityName + "','" + this.IsActive + "')";
-             command1.Connection = connection1;
-             connection1.Open();
-             int x = command1.ExecuteNonQuery();
-             connection1.Close();
-
-             return x;*/
+            
             string query = "Insert INTO City VALUES (@CityName,@IsActive)";
             List<SqlParameter> lstParams = new List<SqlParameter>();
             lstParams.Add(new SqlParameter("@CityName", this.CityName));

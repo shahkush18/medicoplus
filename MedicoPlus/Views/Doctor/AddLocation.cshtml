@@ -1,7 +1,10 @@
-﻿
+﻿@using System.Data
+
 @{
     ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_mytemplate.cshtml";
+    Layout = "~/Views/Shared/_medicoDoctor.cshtml";
+    DataTable City = (DataTable)ViewBag.City;
+    DataTable Area = (DataTable)ViewBag.Area;
 }
 
 
@@ -44,27 +47,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="page-title">JE RAKHVU HOI E</h4>
+                <h4 class="page-title">Add Location</h4>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-10">
                 <div class="card-box">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <form class="form-horizontal" role="form" action="/Doctor/AddLocation" method="post">
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">DoctorLocationId</label>
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control" name="DoctorLocationId">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">DoctorId</label>
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control" name="DoctorId">
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Start Time</label>
                                     <div class="col-md-10">
@@ -80,7 +72,78 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Days Of Work</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" name="DaysOfWork">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Monday" type="checkbox" value="MON" name="DaysOfWork">
+                                            <label for="Monday">
+                                                Monday
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Tuesday" type="checkbox" value="TUE" name="DaysOfWork">
+                                            <label for="Tuesday">
+                                                Tuesday
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Wednesday" type="checkbox" value="WED" name="DaysOfWork">
+                                            <label for="Wednesday">
+                                                Wednesday
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Thurssay" type="checkbox" value="THU" name="DaysOfWork">
+                                            <label for="Thurssay">
+                                                Thurssay
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Friday" type="checkbox" value="FRI" name="DaysOfWork">
+                                            <label for="Friday">
+                                                Friday
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Saturday" type="checkbox" value="SAT" name="DaysOfWork">
+                                            <label for="Saturday">
+                                                Saturday
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-10">
+                                        <div class="checkbox checkbox-inverse">
+                                            <input id="Sunday" type="checkbox" value="SUN" name="DaysOfWork">
+                                            <label for="Sunday">
+                                                Sunday
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -90,15 +153,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">CityId</label>
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control" name="CityId">
+                                    <label class="col-md-2 control-label">City</label>
+                                    
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="CityId">
+                                            @for (int i = 0; i < City.Rows.Count; i++)
+                                            {
+                                            <option value="@City.Rows[0]["CityId"]">@City.Rows[0]["CityName"]</option>
+                                            }
+                                            
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">AreaId</label>
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control" name="AreaId">
+                                    <label class="col-md-2 control-label">Area</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="AreaId">
+                                            @for (int i = 0; i < Area.Rows.Count; i++)
+                                            {
+                                            <option value=@Area.Rows[0]["AreaId"]>@Area.Rows[0]["AreaName"]</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -111,6 +186,12 @@
                                     <label class="col-md-2 control-label">Affiliation</label>
                                     <div class="col-md-10">
                                         <input type="text" class="form-control" name="Affiliation">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Clinic Name</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" name="ClinicName">
                                     </div>
                                 </div>
                                 <div class="form-group">

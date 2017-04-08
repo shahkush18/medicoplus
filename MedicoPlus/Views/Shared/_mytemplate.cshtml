@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<!-- Mirrored from coderthemes.com/ubold_1.4/dark_1/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Oct 2016 14:26:01 GMT -->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
-    <link rel="shortcut icon" href="/Content/myTemplate/assets/images/favicon_1.ico">
+    <link rel="shortcut icon" href=@Url.Content("~/Content/myTemplate/assets/images/favicon_1.ico")>
     <title>MedicoPlus Admin</title>
     <!--Morris Chart CSS -->
     <link rel="stylesheet" href=@Url.Content("/Content/myTemplate/assets/plugins/morris/morris.css")>
@@ -24,8 +24,33 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <script src=@Url.Content("~/Content/myTemplate/assets/js/modernizr.min.js")></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+   ga('create', 'UA-69506598-1', 'auto');
+   ga('send', 'pageview');
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+$(document).ready(function() {
+ $("#btnExport").click(function(e) {
+   e.preventDefault();
 
+   //getting data from our table
+   var data_type = 'data:application/vnd.ms-excel';
+   var table_div = document.getElementById('table_wrapper');
+   var table_html = table_div.outerHTML.replace(/ /g, '%20');
 
+   var a = document.createElement('a');
+   a.href = data_type + ', ' + table_html;
+   a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+   a.click();
+ });
+});
+    </script>
 </head>
 
 <body class="fixed-left">
@@ -36,7 +61,7 @@
             <!-- LOGO -->
             <div class="topbar-left">
                 <div class="text-center">
-                    <a href="index-2.html" class="logo"><i class="icon-magnet icon-c-logo"></i><span>Medic<i class="md md-album"></i>Plus</span></a>
+                    <a href="navigationpaneluser.html" class="logo"><span><img style="height: 45px" src=@Url.Content("/Content/myTemplate/assets/images/Our/web.png")></span></a>
                 </div>
             </div>
             <!-- Button mobile view to collapse sidebar menu -->
@@ -60,18 +85,19 @@
                                     @*<li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
                                     <li><a href="javascript:void(0)"><i class="ti-settings m-r-5"></i> Settings</a></li>
                                     <li><a href="javascript:void(0)"><i class="ti-lock m-r-5"></i> Lock screen</a></li>*@
-                                    
-                                        @if (Session["Admin"] != null)
-                                        {
-                                            <li>
-                                                <a href="/Admin/LogIn"><i class="ti-power-off m-r-5"></i> Logout</a>
-                                            </li>}
-                                        else
-                                        {
-                                            <li>
-                                                <a href="/Admin/SignUp"><i class="ti-power-off m-r-5"></i>SignUp</a>
-                                            </li>
-                                        }
+                                    <li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
+
+                                    @if (Session["Admin"] != null)
+                                    {
+                                        <li>
+                                            <a href="/Admin/LogIn"><i class="ti-power-off m-r-5"></i> Logout</a>
+                                        </li>}
+                                    else
+                                    {
+                                        <li>
+                                            <a href="/Admin/SignUp"><i class="ti-power-off m-r-5"></i>SignUp</a>
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                         </ul>
@@ -88,36 +114,60 @@
                 <!--- Divider -->
                 <div id="sidebar-menu">
                     <ul>
-                        <li class="text-muted menu-title">Navigation</li>
-                        <li class="has_sub">
-                            <a href="#" class="waves-effect waves-light active"><i class="ti-home"></i> <span> City </span> </a>
-                            <ul class="list-unstyled">
-                                <li class="active"><a href="/Admin/CreateCity">Add City</a></li>
-                                <li><a href="/Admin/GetAllCity">View City</a></li>
 
-                            </ul>
+
+
+                        <li class="has_sub">
+                            <a href="/Admin/GenerateReports" class="waves-effect waves-light"><i class="ti-list-ol"></i> <span> Report Generation </span> </a>
                         </li>
                         <li class="has_sub">
-                            <a href="#" class="waves-effect waves-light"><i class="ti-user"></i><span> Manage Disease</span></a>
+                            <a href="#" class="waves-effect waves-light"><i class="ti-map"></i><span> Manage Area </span> </a>
                             <ul class="list-unstyled">
-                                <li><a href="/Admin/CreateDisease"> Add Disease </a></li>
-                                <li><a href="/Admin/getAllDisease"> View Disease</a></li>
+                                <li><a href="/Admin/CreateZone">Add Zone</a></li>
+                                <li><a href="/Admin/GetAllZone">Update Zone</a></li>
                             </ul>
                         </li>
+
                         <li class="has_sub">
-                            <a href="#" class="waves-effect waves-light"><i class="ti-paint-bucket"></i> <span> Speciality </span> </a>
+                            <a href="#" class="waves-effect waves-light"><i class="ti-list"></i><span> Manage Disease </span> </a>
+                            <ul class="list-unstyled">
+                                <li><a href="/Admin/CreateDisease">Add Disease</a></li>
+                                <li><a href="/Admin/GetAllDisease">Update Diseases</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a href="#" class="waves-effect waves-light"><i class="ti-pulse"></i><span> Manage Speciality </span> </a>
                             <ul class="list-unstyled">
                                 <li><a href="/Admin/CreateSpeciality">Add Speciality</a></li>
-                                <li><a href="/Admin/GetAllSpeciality">View Speciality</a></li>
+                                <li><a href="/Admin/GetAllSpeciality">Update Specialities</a></li>
                             </ul>
                         </li>
 
+                        <li class="has_sub">
+                            <a href="#" class="waves-effect waves-light"><i class="ti-id-badge"></i><span> Manage Doctors </span> </a>
+                            <ul class="list-unstyled">
+                                <li><a href="adc.html">Authenticate Doctors</a></li>
+                                <li><a href="upc.html">View List</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="#" class="waves-effect waves-light"><i class="ti-user"></i> <span> Profile </span> </a>
+                            <ul class="list-unstyled">
+                                <li><a href="#">My Profile</a></li>
+                                <li><a href="#">Edit Profile</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="feedback.html" class="waves-effect waves-light"><i class="ti-pencil-alt"></i><span>Complaints/Feedback</span></a>
+                        </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
+
         <!-- Left Sidebar End -->
         <!-- ============================================================== -->
         <!-- Start right Content here -->

@@ -1,0 +1,143 @@
+﻿@using System.Data
+@using MedicoPlus.Models
+@model DataTable
+@{
+    ViewBag.Title = "GenerateReports";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+    //Layout = null;
+    DataTable City = (DataTable)ViewBag.City;
+    DataTable Area = (DataTable)ViewBag.Area;
+    DataTable Disease = (DataTable)ViewBag.Disease;
+
+}
+
+<body class="fixed-left">
+
+    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4 class="page-title">Report</h4>
+                            <ol class="breadcrumb">Enter Filters</ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-box">
+                                <div class="row">
+                                    <form class="form-horizontal" role="form" action="GenerateReports" method="post">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">Disease</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="DiseaseId">
+                                                    <option value="0">ALL</option>
+                                                    @for (int i = 0; i < Disease.Rows.Count; i++)
+                                                    {
+                                                        <option value=@Disease.Rows[i]["DiseaseId"]>@Disease.Rows[i]["DiseaseName"]</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-1 control-label">Area</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="AreaId">
+                                                    <option value="0">ALL</option>
+
+                                                    @for (int i = 0; i < Area.Rows.Count; i++)
+                                                    {
+                                                        <option value=@Area.Rows[i]["AreaId"]>@Area.Rows[i]["AreaName"]</option>
+                                                    }
+
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-1 control-label">From</label>
+                                            <div class="col-sm-2">
+                                                <input class="form-control" type="date" name="From" required="required">
+                                            </div>
+                                            
+                                            </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3"></div>
+                                            <label class="col-sm-1 control-label">City</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="City">
+                                                    <option value="0">ALL</option>
+                                                    @for (int i = 0; i < City.Rows.Count; i++)
+                                                    {
+                                                    <option value=@City.Rows[i]["CityId"]>@City.Rows[i]["CityName"]</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <label class="col-sm-1 control-label">To</label>
+                                            <div class="col-sm-2">
+                                                <input class="form-control" type="date" name="To"required="required">
+                                            </div>
+                                            <button type="submit" class="btn btn-purple waves-effect waves-light col-sm-2">Filter</button>
+                                            
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-box">
+
+                                <div class="row">
+                                    <div class="p-20" id="table_wrapper">
+                                        <table class="table m-0" id="list">
+
+                                            <thead>
+                                               
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Address</th>
+                                                    <th>Gender</th>
+                                                    <th>Mobile</th>
+                                                    <th>Age</th>
+                                                    <th>Occupation</th>
+                                                    <th>Diseases</th>
+                                                    <th>Doctor Name</th>
+                                                    <th>Date</th>
+                                                    <th>Area</th>
+                                                    <th>City</th>
+                                                    
+                                                </tr>
+                                               
+                                            </thead>
+                                            <tbody>
+@for (int i = 0; i < Model.Rows.Count; i++)
+{
+    int j = i + 1;
+                                                <tr>
+                                                    
+                                                    <th scope="row">@j</th>
+                                                    <td>@Model.Rows[i]["PatientName"]</td>
+                                                    <td>@Model.Rows[i]["PatientAddress"]</td>
+                                                    <td>@Model.Rows[i]["Gender"]</td>
+                                                    <td>@Model.Rows[i]["Mobile"]</td>
+                                                    <td>@Model.Rows[i]["Age"]</td>
+                                                    <td>@Model.Rows[i]["Occupation"]</td>
+                                                    <td>@Model.Rows[i]["DiseaseName"]</td>
+                                                    <td>@Model.Rows[i]["DocName"]</td>
+                                                    <td>@Model.Rows[i]["Date"]</td>
+                                                    <td>@Model.Rows[i]["AreaName"]</td>
+                                                    <td>@Model.Rows[i]["CityName"]</td>
+                                                </tr>
+}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="hidden-print">
+                                        <div class="pull-right">
+                                            <button id="btnExport" class="btn btn-inverse waves-effect waves-light"><i class="ti-download"></i> Export as Excel Sheet</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+
+</body>

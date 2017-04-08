@@ -213,6 +213,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AppUserController.cs" />
@@ -628,12 +629,11 @@
     <Content Include="Views\Admin\GetAllSpeciality.cshtml" />
     <Content Include="Views\Admin\CreateDisease.cshtml" />
     <Content Include="Views\Admin\GetAllDisease.cshtml" />
-    <Content Include="Views\Doctor\CreateDoctor.cshtml" />
+    <Content Include="Views\Doctor\SignupDoctor.cshtml" />
     <Content Include="Views\Doctor\DoctorProfile.cshtml" />
     <Content Include="Views\Admin\SignUp.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_mytemplate.cshtml" />
-    <Content Include="Views\Admin\LogIn.cshtml" />
     <Content Include="Views\Shared\_medicoDoctor.cshtml" />
     <Content Include="Views\Doctor\DLogIn.cshtml" />
     <Content Include="Views\Shared\_mySignUp.cshtml" />
@@ -642,10 +642,21 @@
     <Content Include="Views\AppUser\SignUp.cshtml" />
     <Content Include="Views\Doctor\AddLocation.cshtml" />
     <Content Include="Views\AppUser\BookAppointment.cshtml" />
+    <Content Include="Views\AppUser\AppointmentFinal.cshtml" />
+    <Content Include="Views\AppUser\ManageAppointment.cshtml" />
+    <Content Include="Views\AppUser\PendingAppointment.cshtml" />
+    <Content Include="Views\Shared\_AppUserLayout.cshtml" />
+    <Content Include="Views\Access\Login.cshtml" />
+    <Content Include="Views\Admin\GenerateReports.cshtml" />
+    <Content Include="Views\Doctor\UpcomingAppointments.cshtml" />
+    <Content Include="Views\Doctor\PreviousReports.cshtml" />
+    <Content Include="Views\AppUser\DoctorList.cshtml" />
+    <Content Include="Views\AppUser\Dashbord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="NewFolder1\" />
+    <Folder Include="Photo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

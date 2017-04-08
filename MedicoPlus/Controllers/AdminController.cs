@@ -2,6 +2,7 @@
 using MedicoPlus.Models;
 using System.Data;
 using System;
+using System.Collections.Generic;
 
 namespace MedicoPlus.Controllers
 {
@@ -94,6 +95,17 @@ namespace MedicoPlus.Controllers
             CityModel C = new CityModel();
             DataTable dt = C.SelectAll();
             return View(dt);
+        }
+        public JsonResult GetCity()
+        {
+            CityModel C = new CityModel();
+            DataTable dt = C.SelectAll();
+            List<CityModel> olist = new List<CityModel>();
+            foreach (DataRow row in dt.Rows)
+            {
+                olist.Add(new CityModel { CityId = Convert.ToInt16(row["CityId"]), CityName = Convert.ToString(row["CityName"]), IsActive = Convert.ToBoolean(row["IsActive"]) });
+            }
+            return Json(olist, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CityDetails(int id)
@@ -217,6 +229,68 @@ namespace MedicoPlus.Controllers
             DiseaseModel D = new DiseaseModel();
             DataTable dt = D.SelectAll();
             return View(dt);
+        }
+        public ActionResult GenerateReports()
+        {
+            Report rep = new Report();
+            DataTable dt = rep.GenerateReport();
+
+            DiseaseModel disease = new DiseaseModel();
+            DataTable dt1 = disease.SelectAll();
+            dt1.Rows.Add(0, "ALL");
+            //dt1.DefaultView.Sort = "DiseaseId";
+            ViewBag.Disease = dt1;
+
+            AreaModel Area = new AreaModel();
+            DataTable dt2 = Area.SelectAllArea();
+            dt2.Rows.Add(0, "ALL");
+            dt2.DefaultView.Sort = "AreaId";
+            ViewBag.Area = dt2;
+
+            DataTable dt3 = (new CityModel()).SelectAll();
+            dt3.Rows.Add(0, "ALL");
+            dt3.DefaultView.Sort = "CityId";
+            ViewBag.City = dt3;
+            return View(dt);
+        }
+        [HttpPost]
+        public ActionResult GenerateReports(FormCollection collection)
+        {
+            DiseaseModel disease = new DiseaseModel();
+            DataTable dt1 = disease.SelectAll();
+            dt1.Rows.Add(0, "ALL");
+            dt1.DefaultView.Sort = "DiseaseId";
+            ViewBag.Disease = dt1;
+
+            AreaModel Area = new AreaModel();
+            DataTable dt2 = Area.SelectAllArea();
+            dt2.Rows.Add(0, "ALL");
+            dt2.DefaultView.Sort = "AreaId";
+            ViewBag.Area = dt2;
+
+            DataTable dt3 = (new CityModel()).SelectAll();
+            dt3.Rows.Add(0, "ALL");
+            dt3.DefaultView.Sort = "CityId";
+            ViewBag.City = dt3;
+            Report rep = new Report();
+            DateTime to;
+            DateTime from;
+            DataTable dt;
+            try
+            {
+                to = Convert.ToDateTime(collection["TO"]);
+                from = Convert.ToDateTime(collection["From"]);
+                dt = rep.GenerateFilteredReport(Convert.ToInt32(collection["AreaId"]), Convert.ToInt32(collection["CityId"]), Convert.ToInt32(collection["DiseaseId"]), Convert.ToDateTime(collection["TO"]), Convert.ToDateTime(collection["From"]), 1);
+            }
+            catch (Exception e) {
+                Console.WriteLine(e);
+                to =DateTime.Now ;
+                from =DateTime.Now ;
+                dt = rep.GenerateFilteredReport(Convert.ToInt32(collection["AreaId"]), Convert.ToInt32(collection["CityId"]), Convert.ToInt32(collection["DiseaseId"]), Convert.ToDateTime(collection["TO"]), Convert.ToDateTime(collection["From"]),0);
+            }
+            
+            
+            return View(dt); 
         }
 
     }
