@@ -216,6 +216,7 @@
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\APIController.cs" />
     <Compile Include="Controllers\AppUserController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -652,11 +653,13 @@
     <Content Include="Views\Doctor\PreviousReports.cshtml" />
     <Content Include="Views\AppUser\DoctorList.cshtml" />
     <Content Include="Views\AppUser\Dashbord.cshtml" />
+    <Content Include="Views\AppUser\DoctorProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="NewFolder1\" />
     <Folder Include="Photo\" />
+    <Folder Include="Views\API\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -67,7 +67,7 @@ namespace MedicoPlus.Models
                 this.Password = dt.Rows[0]["Password"].ToString();
                 this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
                 this.DoctorId = Convert.ToInt32(dt.Rows[0]["DoctorId"]);
-
+                this.Photo = Convert.ToString(dt.Rows[0]["Photo"]);
                 return true;
             }
             else
@@ -106,7 +106,7 @@ namespace MedicoPlus.Models
                 this.DocName = dt.Rows[0]["DocName"].ToString();
                 this.UserName = dt.Rows[0]["Username"].ToString();
                 this.Password = dt.Rows[0]["Password"].ToString();
-                this.IsActive = Convert.ToBoolean(dt.Rows[0]["isActive"]);
+                this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
                 this.Intro = dt.Rows[0]["Intro"].ToString();
                 this.Photo = dt.Rows[0]["Photo"].ToString();
                 this.Gender = dt.Rows[0]["Gender"].ToString();
@@ -124,7 +124,7 @@ namespace MedicoPlus.Models
             return dt;
         }
         public DataTable SelectAllDoctor() {
-            string query = "SELECT Doctor.DocName,Doctor.Qualification,Doctor.MinConsultationFee, Speciality.SpName FROM Doctor INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId";
+            string query = "SELECT Doctor.DoctorId,Doctor.DocName,Doctor.Qualification,Doctor.MinConsultationFee, Speciality.SpName FROM Doctor INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId";
             List<SqlParameter> lstParam = new List<SqlParameter>();
             return DataAccess.SelectData(query,lstParam);
         }

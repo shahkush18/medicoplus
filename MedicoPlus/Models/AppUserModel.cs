@@ -104,6 +104,7 @@ namespace MedicoPlus.Models
                 this.AreaId = Convert.ToInt32(dt.Rows[0]["AreaId"]);
                 this.CityId = Convert.ToInt32(dt.Rows[0]["CityId"]);
                 this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
+                this.Photo = Convert.ToString(dt.Rows[0]["Photo"]);
 
                 return true;
             }

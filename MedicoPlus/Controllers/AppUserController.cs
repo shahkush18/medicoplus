@@ -50,7 +50,7 @@ namespace MedicoPlus.Controllers
         [HttpPost]
         public ActionResult SignUp(FormCollection collection)
         {
-            AppUserModel A = new Models.AppUserModel();
+            AppUserModel A = new AppUserModel();
             A.AUName = collection["Username"];
             A.Gender = collection["Gender"];
             A.Email = collection["Email"];
@@ -79,29 +79,15 @@ namespace MedicoPlus.Controllers
         }
            
 
-        [HttpPost]
-        public ActionResult Login(FormCollection collection)
-        {
-            AppUserModel A = new AppUserModel();
-            A.AUName = collection["Username"];
-            A.Password = collection["Password"];
-            if (A.Authenticate())
-            {
-                Session[""] = A;
-                return RedirectToAction("Index", "Admin");
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
-        }
+        
+       
         [HttpPost]
         public ActionResult BookAppointment(FormCollection collection)
         {
             DoctorLocation docLoc = new DoctorLocation();
 
-            //docLoc.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
-            docLoc.DoctorLocationId = 1;
+            docLoc.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
+            //docLoc.DoctorLocationId = 1;
             docLoc.SelectByDoctorLocationId();
             DoctorModel doctor = new DoctorModel();
             doctor.DoctorId = docLoc.DoctorId;
@@ -110,7 +96,7 @@ namespace MedicoPlus.Controllers
             Appointment aCheck = new Appointment();
             aCheck.AppDate = Convert.ToDateTime(collection["AppDate"]); 
             aCheck.AppTime = Convert.ToString(collection["AppTime"]);
-            aCheck.DoctorLocationId = 1;
+            aCheck.DoctorLocationId = docLoc.DoctorLocationId;
             int day = (int)aCheck.AppDate.DayOfWeek;
             string daysOfWork = docLoc.DaysOfWork;
             bool appt = false;
@@ -170,46 +156,25 @@ namespace MedicoPlus.Controllers
 
             if (aCheck.CheckNoOfAppointment() < doctor.MaxApptPerHour && appt)
             {
-                //Appointment a = new Appointment();
-                //a.AppUserId = ((AppUserModel)Session["Appuser"]).AppUserId;
-                //a.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
-                //a.SubmitDate = Convert.ToDateTime(DateTime.Now);
-                //a.AppDate = Convert.ToDateTime(collection["AppDate"]);
-                //a.AppTime = Convert.ToString(collection["AppTime"]);
-                //a.PatientName = Convert.ToString(collection["PatientName"]);
-                //a.Age = Convert.ToInt32(collection["Age"]);
-                //a.InsertAppointment();
-
-                //Appointment a = new Appointment();
-                //a.AppUserId = 1;
-                //a.DoctorLocationId = 1;
-                //a.SubmitDate = Convert.ToDateTime(DateTime.Now);
-                //a.AppDate = Convert.ToDateTime(collection["AppDate"]);
-                //a.AppTime = Convert.ToString(collection["AppTime"]);
-                //a.Phone = "012345678";
-                //a.PatientName = "Kush";
-                //a.Address = "A/103 bhagyalaxmi Society Vadodara";
-                //a.Age = 21;
-                //a.Status = "Pending";
-                //a.InsertAppointment();
-                return RedirectToAction("AppointmentFinal",new {AppTime = aCheck.AppTime , AppDate = aCheck.AppDate });
+               
+                return RedirectToAction("AppointmentFinal",new {AppTime = aCheck.AppTime , AppDate = aCheck.AppDate , DoctorLocationId = docLoc.DoctorLocationId });
             }
             else
             {
                 ViewBag.error_found = "Appointment not available Try Again";
-                return RedirectToAction("BookAppointment");
+                return RedirectToAction("BookAppointment","AppUser");
             }
 
            
 
         }
         [HttpGet]
-        public ActionResult BookAppointment()
+        public ActionResult BookAppointment(int id)
         {
             
             DoctorLocation docLoc = new DoctorLocation();
             List<int> timeSlot = new List<int>();
-            docLoc.DoctorLocationId = 1;
+            docLoc.DoctorLocationId = id;
             docLoc.SelectByDoctorLocationId();
             DoctorModel doc = new DoctorModel();
             doc.DoctorId = docLoc.DoctorId;
@@ -222,18 +187,19 @@ namespace MedicoPlus.Controllers
             }
             ViewBag.timeSlot = timeSlot;
             ViewBag.Doctor = doc;
+            ViewBag.DoctorLocationId = id;
 
 
             return View(docLoc);
 
         }
         
-        public ActionResult AppointmentFinal(DateTime AppDate, string AppTime)
+        public ActionResult AppointmentFinal(DateTime AppDate, string AppTime,int DoctorLocationId)
         {
            
             ViewBag.AppDate = AppDate;
             ViewBag.AppTime = AppTime;
-
+            ViewBag.DoctorLocationId = DoctorLocationId;
 
             return View();
         }
@@ -248,8 +214,8 @@ namespace MedicoPlus.Controllers
                 
                 //a.AppUserId = ((AppUserModel)Session["Appuser"]).AppUserId;
                 a.AppUserId = ((AppUserModel)Session["User"]).AppUserId; 
-                //a.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
-                a.DoctorLocationId = 1;
+                a.DoctorLocationId = Convert.ToInt32(collection["DoctorLocationId"]);
+                
                 a.SubmitDate = Convert.ToDateTime(DateTime.Now);                
                 a.PatientName = Convert.ToString(collection["PatientName"]);
                 a.Phone = Convert.ToString(collection["Phone"]);
@@ -287,7 +253,7 @@ namespace MedicoPlus.Controllers
                 Console.Write(E);
                 bool error = true;
                 ViewBag.Error = error;
-                return RedirectToAction("AppointmentFinal",new {AppTime = a.AppTime , AppDate = a.AppDate });
+                return RedirectToAction("AppointmentFinal",new {AppTime = a.AppTime , AppDate = a.AppDate,DoctorLocationId = a.DoctorLocationId });
                 
 
             }
@@ -336,6 +302,19 @@ namespace MedicoPlus.Controllers
 
 
             return View();
+        }
+        public ActionResult DoctorProfile(int id)
+        {
+            DoctorModel doc = new DoctorModel();
+            doc.DoctorId = id;   
+            //doc.DoctorId = Convert.ToInt32(collection["DoctorId"]);
+            doc.SelectById();
+            DoctorLocation docLoc = new DoctorLocation();
+            docLoc.DoctorId = doc.DoctorId;
+            DataTable dt = docLoc.SelectByDoctorId();
+            ViewBag.Location = dt;
+
+            return View(doc);
         }
 
 

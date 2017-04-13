@@ -46,7 +46,7 @@ namespace MedicoPlus.Models
 
         public DataTable SelectByDoctorId()
         {
-            string query = "SELECT DoctorLocation.ClinicName , City.CityName , Area.AreaName FROM DoctorLocation INNER JOIN City ON DoctorLocation.CityId = City.CityId INNER JOIN Area ON DoctorLocation.AreaId = Area.AreaId WHERE DoctorLocation.DoctorId = @DoctorId";
+            string query = "SELECT DoctorLocation.DoctorLocationId,DoctorLocation.StartTime,DoctorLocation.EndTime,DoctorLocation.ClinicName , City.CityName , Area.AreaName FROM DoctorLocation INNER JOIN City ON DoctorLocation.CityId = City.CityId INNER JOIN Area ON DoctorLocation.AreaId = Area.AreaId WHERE DoctorLocation.DoctorId = @DoctorId";
             List<SqlParameter> lstparams = new List<SqlParameter>();
             lstparams.Add(new SqlParameter("@DoctorId", this.DoctorId));
             DataTable dt = DataAccess.SelectData(query, lstparams);

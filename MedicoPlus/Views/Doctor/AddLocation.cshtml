@@ -159,7 +159,7 @@
                                         <select class="form-control" name="CityId">
                                             @for (int i = 0; i < City.Rows.Count; i++)
                                             {
-                                            <option value="@City.Rows[0]["CityId"]">@City.Rows[0]["CityName"]</option>
+                                            <option value="@City.Rows[i]["CityId"]">@City.Rows[i]["CityName"]</option>
                                             }
                                             
                                         </select>
@@ -171,7 +171,7 @@
                                         <select class="form-control" name="AreaId">
                                             @for (int i = 0; i < Area.Rows.Count; i++)
                                             {
-                                            <option value=@Area.Rows[0]["AreaId"]>@Area.Rows[0]["AreaName"]</option>
+                                            <option value=@Area.Rows[i]["AreaId"]>@Area.Rows[i]["AreaName"]</option>
                                             }
                                         </select>
                                     </div>

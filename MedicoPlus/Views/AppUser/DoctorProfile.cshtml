@@ -1,11 +1,10 @@
-﻿
-
-@using System.Data;
+﻿@using System.Data;
 @using MedicoPlus.Models;
 @model DoctorModel
+
 @{
-    Layout = " ~/Views/Shared/_medicoDoctor.cshtml";
-   
+    ViewBag.Title = "DoctorProfile";
+    Layout = "~/Views/Shared/_AppUserLayout.cshtml";
     DataTable dt = ViewBag.Location;
 }
 
@@ -46,7 +45,7 @@
                         <br>
                         <p class="text-muted">@Model.Email</p>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -66,8 +65,9 @@
                         <tr>
                             <th>Sr. No.</th>
                             <th>Clinic Name</th>
-                            <th>City</th>
                             <th>Area</th>
+                            <th>Timing</th>
+                            <th>Book</th>
 
                         </tr>
                     </thead>
@@ -76,22 +76,24 @@
                         @for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             int j = i + 1;
+                            DateTime StartTime = Convert.ToDateTime(dt.Rows[i]["StartTime"]);
+                            DateTime EndTime = Convert.ToDateTime(dt.Rows[i]["EndTime"]);
 
-                            
 
                             <tr>
                                 <th scope="row">@j</th>
                                 <td>@dt.Rows[i]["ClinicName"]</td>
-                                <td>@dt.Rows[i]["CityName"]</td>
-                                <td>@dt.Rows[i]["AreaName"]</td>
                                 
+                                <td>@dt.Rows[i]["AreaName"]</td>
+                                <td>@StartTime.TimeOfDay to @EndTime.TimeOfDay</td>
+                                <td><a href="/AppUser/BookAppointment/@dt.Rows[i]["DoctorLocationId"]"><button type="button" class="btn btn-default waves-effect waves-light">Book</button></a></td>
                             </tr>
                         }
 
 
                     </tbody>
-                </table><br/>
-                    <a href="/Doctor/AddLocation"><button type="button" class="btn btn-default waves-effect waves-light col-md-offset-11">Add</button></a>
+                </table><br />
+               
             </div>
 
 
@@ -104,5 +106,4 @@
 
     </div>
 </div>
-
 

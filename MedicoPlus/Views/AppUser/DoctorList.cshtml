@@ -24,7 +24,7 @@
                         {
                         <tr>
                             <td><center><img style="max-width: 80px; max-height: 80px" src=@Url.Content("/Content/myTemplate/assets/images/Our/icon.png") class="thumb-la" alt=""></center></td>
-                            <td><a href="/AppUser/BookAppointment"><span class="text-custom">@Model.Rows[i]["DocName"]</span></a></td>
+                            <td><a href="/AppUser/DoctorProfile/@Model.Rows[i]["DoctorId"]"><span class="text-custom">@Model.Rows[i]["DocName"]</span></a></td>
                             <td>@Model.Rows[i]["SpName"]</td>
                             <td>@Model.Rows[i]["Qualification"]</td>
                             <td>&#8377 @Model.Rows[0]["MinConsultationFee"]</td>
