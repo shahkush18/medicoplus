@@ -53,12 +53,12 @@ namespace MedicoPlus.Models
             return dt;
         }
 
-        public DataTable SelectByCityId()
+        public DataTable SelectByCityId(int id)
         {
-            string query = "Select * from DoctorLocation WHERE DoctorId = @DoctorId AND CityId = @CityId";
+            string query = "Select DoctorLocation.*,Doctor.*,Speciality.*,City.CityName,Area.AreaName from DoctorLocation INNER JOIN Doctor ON DoctorLocation.DoctorId=Doctor.DoctorId INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId INNER JOIN City ON DoctorLocation.CityId=City.CityId INNER JOIN Area ON DoctorLocation.AreaId=Area.AreaId WHERE DoctorLocation.CityId = @CityId";
             List<SqlParameter> lstparams = new List<SqlParameter>();
-            lstparams.Add(new SqlParameter("@DoctorId", this.DoctorId));
-            lstparams.Add(new SqlParameter("@CityId", this.CityId));
+            lstparams.Add(new SqlParameter("@CityId", id));
+            
             DataTable dt = DataAccess.SelectData(query, lstparams);
             return dt;
         }
@@ -88,6 +88,7 @@ namespace MedicoPlus.Models
             List<SqlParameter> lstparams = new List<SqlParameter>();
             lstparams.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
             DataTable dt = DataAccess.SelectData(query, lstparams);
+            this.DoctorLocationId = Convert.ToInt32(dt.Rows[0]["DoctorLocationId"]);
             this.DoctorId = Convert.ToInt32(dt.Rows[0]["DoctorId"]);
             this.StartTime = Convert.ToDateTime(dt.Rows[0]["StartTime"]);
             this.EndTime = Convert.ToDateTime(dt.Rows[0]["EndTime"]);
@@ -101,6 +102,22 @@ namespace MedicoPlus.Models
             this.Password = Convert.ToString(dt.Rows[0]["Password"]);
             this.ClinicName = Convert.ToString(dt.Rows[0]["ClinicName"]);
             return dt;
+        }
+        public DataTable SelectBySpecialityId(int id)
+        {
+            string query = "Select DoctorLocation.*,Doctor.*,Speciality.*,City.CityName,Area.AreaName from DoctorLocation INNER JOIN Doctor ON DoctorLocation.DoctorId=Doctor.DoctorId INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId INNER JOIN City ON DoctorLocation.CityId=City.CityId INNER JOIN Area ON DoctorLocation.AreaId=Area.AreaId WHERE Doctor.SpecialityId = @SpecialityId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@SpecialityId", id));
+
+            DataTable dt = DataAccess.SelectData(query, lstparams);
+            return dt;
+        }
+        public DataTable SelectDoctorByLocationId()
+        {
+            string query = "Select Doctor.*,DoctorLocation.*,City.CityName,Area.AreaName ,Speciality.SpName FROM DoctorLocation INNER JOIN Doctor ON DoctorLocation.DoctorId = Doctor.DoctorId INNER JOIN City ON DoctorLocation.CityId = City.CityId INNER JOIN Area ON DoctorLocation.AreaId = Area.AreaId INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId WHERE DoctorLocation.DoctorLocationId = @DoctorLocationId ";
+            List<SqlParameter> lstparam = new List<SqlParameter>();
+            lstparam.Add(new SqlParameter("@DoctorLocationId", this.DoctorLocationId));
+            return DataAccess.SelectData(query, lstparam);
         }
 
     }

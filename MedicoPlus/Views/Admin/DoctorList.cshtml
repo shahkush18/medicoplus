@@ -1,0 +1,39 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewBag.Title = "DoctorList";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="table-responsive">
+                <table class="table table-actions-bar m-b-0">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Doctor Name</th>
+                            <th>Speciality</th>
+                            <th>Qualification</th>
+                            <th>Minimum Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Rows.Count; i++)
+                        {
+                            <tr>
+                                <td><center><img style="max-width: 80px; max-height: 80px" src=@Url.Content(Convert.ToString(Model.Rows[i]["Photo"])) class="thumb-la" alt=""></center></td>
+                                <td><a href="/Admin/DoctorProfile/@Model.Rows[i]["DoctorId"]"><span class="text-custom">@Model.Rows[i]["DocName"]</span></a></td>
+                                <td>@Model.Rows[i]["SpName"]</td>
+                                <td>@Model.Rows[i]["Qualification"]</td>
+                                <td>&#8377 @Model.Rows[i]["MinConsultationFee"]</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

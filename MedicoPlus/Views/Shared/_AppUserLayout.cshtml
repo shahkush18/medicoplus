@@ -68,7 +68,7 @@
                                     @if (Session["User"] != null)
                                     {
                                         <li>
-                                            <a href="/Access/LogIn"><i class="ti-power-off m-r-5"></i> Logout</a>
+                                            <a href="/Access/LoginUser"><i class="ti-power-off m-r-5"></i> Logout</a>
                                         </li>}
                                     else
                                     {
@@ -98,7 +98,7 @@
                             <a href="#" class="waves-effect waves-light active"><i class="ti-user"></i> <span> Profile </span> </a>
                             <ul class="list-unstyled">
                                 <li class="active"><a href="/AppUser/UserProfile">My Profile</a></li>
-                                <li><a href="/AppUser/UserProfile">Edit Profile</a></li>
+                                <li><a href="/AppUser/EditProfile">Edit Profile</a></li>
                             </ul>
                         </li>
 
@@ -119,16 +119,16 @@
                         <li class="has_sub">
                             <a href="#" class="waves-effect waves-light"><i class="ti-view-list"></i><span> Appointments </span> </a>
                             <ul class="list-unstyled">
-                                <li><a href="PendingAppointment">Booked Appointments</a></li>
-                                <li><a href="ManageAppointment">Previous Appointments</a></li>
+                                <li><a href="/AppUser/PendingAppointment">Booked Appointments</a></li>
+                                <li><a href="/AppUser/ManageAppointment">Previous Appointments</a></li>
                             </ul>
                         </li>
 
                         <li class="has_sub">
-                            <a href="prescriptionlist.html" class="waves-effect waves-light"><i class="ti-layout-list-thumb-alt"></i> <span> Precriptions </span> </a>
+                            <a href="/AppUser/Prescriptions" class="waves-effect waves-light"><i class="ti-layout-list-thumb-alt"></i> <span> Precriptions </span> </a>
 
                         </li>
-                        <li class="has_sub"><a href="feedback.html"><i class="ti-pencil-alt"></i><span>Complaints/Feedback</span></a></li>
+                        
                     </ul>
                     <div class="clearfix"></div>
                 </div>

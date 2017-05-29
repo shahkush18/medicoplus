@@ -1,0 +1,67 @@
+﻿
+@using System.Data
+@model DataTable
+@{
+
+    ViewBag.Title = "Prescriptions";
+    Layout = "~/Views/Shared/_AppUserLayout.cshtml";
+}
+
+<h3>View Prescriptions</h3>
+<body class="smallscreen fixed-left-void">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="p-20">
+                                <table class="table table-striped m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Patient name</th>
+                                            <th>Appointment date</th>
+                                            <th>Doctor name</th>
+                                            <th>Clinic name</th>
+                                            <th>Store Status</th>
+                                            <th>Order Medicine</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @for (int i = 0; i < Model.Rows.Count; i++)
+                                        {
+                                            int j = i + 1;
+
+                                            string AppDate = Convert.ToString(Model.Rows[i]["AppDate"]);
+                                            string[] App_date = AppDate.Split(' ');
+
+                                            <tr>
+                                                <th scope="row">@j</th>
+                                                <td><a href="/AppUser/ViewPrescription/@Model.Rows[i]["AppointmentId"]">@Model.Rows[i]["patientName"]</a></td>
+                                                <td>@App_date[0] @Model.Rows[i]["AppTime"]:00</td>
+                                                <td>@Model.Rows[i]["DocName"]</td>
+                                                <td>@Model.Rows[i]["ClinicName"]</td>
+                                                <td>@Model.Rows[i]["StoreStatus"]</td>
+                                                <td><a href="/AppUser/MedicalStoreList/@Model.Rows[i]["AppointmentId"]">Forward</a></td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</body>

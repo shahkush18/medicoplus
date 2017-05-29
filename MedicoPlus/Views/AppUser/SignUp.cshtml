@@ -1,7 +1,9 @@
 ﻿@using System.Data
 @model DataTable
 @using MedicoPlus.Models
+
 @{
+    
     Layout = null;
     ViewBag.Title = "SignUp";
     List<AreaModel> list = ViewBag.list;
@@ -10,12 +12,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-    <meta name="author" content="Coderthemes">
 
     <link rel="shortcut icon" href="assets/images/favicon_1.ico">
 
-    <title>MedicoPlus Admin</title>
+    <title>User SignUp</title>
 
     <link href=@Url.Content("/Content/myTemplate/assets/css/bootstrap.min.css") rel="stylesheet" type="text/css" />
     <link href=@Url.Content("/Content/myTemplate/assets/css/core.css") rel="stylesheet" type="text/css" />
@@ -49,7 +49,8 @@
     <div class="wrapper-page">
         <div class="card-box">
             <div class="panel-heading">
-                <h3 class="text-center"> Sign Up to <strong class="text-custom">MedicoPlus</strong> </h3>
+                <h4 class="text-center"> <strong class="text-custom">USER SIGNUP</strong> </h4></br></br>
+                <center><img class="logo" style="height: 75px" src=@Url.Content(" /Content/myTemplate/assets/images/Our/web.png")></center>
             </div>
             <div class="panel-body">
                 <form name="form1" class="form-horizontal m-t-20" action="SignUp" method="post" enctype="multipart/form-data">
@@ -67,7 +68,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input class="form-control" type="password" required="" name="Password" placeholder="Password">
+                            <input class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="" name="Password" placeholder="Password">
                         </div>
                     </div>
 
@@ -87,7 +88,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" size="10" minlength="10" maxlength="10" required="" name="Mobile" placeholder="Mobile">
+                            <input class="form-control" type="text" pattern="[789][0-9]{9}" title="Please enter valid phone number" size="10" minlength="10" maxlength="10" required="" name="Mobile" placeholder="Mobile">
                         </div>
                     </div>
                     <div class="form-group ">
@@ -125,7 +126,7 @@
                     </select><br>
                     City
                     <select class="form-control" name="CityId">
-                        @for (int i = 0; i < Model.Rows.Count; i++)
+                         @for (int i = 0; i < Model.Rows.Count; i++)
                         {
                             <option value="@Model.Rows[i]["CityId"]">@Model.Rows[i]["CityName"]</option>
                         }
@@ -153,7 +154,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12 text-center">
-                <p>Already have an account <a href="/Admin/LogIn" class="text-primary m-l-5"><b>Log In</b></a></p>
+                <p>Already have an account <a href="/Access/LogInUser" class="text-primary m-l-5"><b>Log In</b></a></p>
 
             </div>
         </div>

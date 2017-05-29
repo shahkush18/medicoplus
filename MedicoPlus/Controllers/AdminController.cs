@@ -3,6 +3,7 @@ using MedicoPlus.Models;
 using System.Data;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MedicoPlus.Controllers
 {
@@ -26,7 +27,7 @@ namespace MedicoPlus.Controllers
             if (Session["Admin"] != null)
             {
                 return View();
-            }else
+            } else
             {
                 return RedirectToAction("LogIn");
             }
@@ -48,7 +49,7 @@ namespace MedicoPlus.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
         public ActionResult Login()
         {
             Session["Admin"] = null;
@@ -68,7 +69,7 @@ namespace MedicoPlus.Controllers
             }
             else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Access");
             }
         }
 
@@ -89,7 +90,7 @@ namespace MedicoPlus.Controllers
             return RedirectToAction("GetAllCity");
         }
 
-        
+
         public ActionResult GetAllCity()
         {
             CityModel C = new CityModel();
@@ -112,7 +113,7 @@ namespace MedicoPlus.Controllers
         {
             ZoneModel Z = new ZoneModel();
             Z.CityId = id;
-            DataTable dt=Z.SelectAllZoneById();
+            DataTable dt = Z.SelectAllZoneById();
 
             CityModel C = new CityModel();
             C.CityId = id;
@@ -151,7 +152,7 @@ namespace MedicoPlus.Controllers
         {
             AreaModel A = new AreaModel();
             A.ZoneId = id;
-            DataTable dt = A.SelectAllAreaById();
+            DataTable dt = A.SelectAllAreaByZoneId();
 
             ZoneModel Z = new ZoneModel();
             Z.ZoneId = id;
@@ -184,8 +185,8 @@ namespace MedicoPlus.Controllers
             DataTable dt = A.SelectAllArea();
             return View(dt);
         }
-        
-        
+
+
         //Speciality
 
         public ActionResult CreateSpeciality()
@@ -251,6 +252,8 @@ namespace MedicoPlus.Controllers
             dt3.Rows.Add(0, "ALL");
             dt3.DefaultView.Sort = "CityId";
             ViewBag.City = dt3;
+            DataTable dt4 = (new DoctorLocation()).SelectByCityId(1);
+            ViewBag.Clinic = dt4;
             return View(dt);
         }
         [HttpPost]
@@ -272,6 +275,8 @@ namespace MedicoPlus.Controllers
             dt3.Rows.Add(0, "ALL");
             dt3.DefaultView.Sort = "CityId";
             ViewBag.City = dt3;
+            DataTable dt4 = (new DoctorModel()).SelectAllDoctor();
+            ViewBag.Clinic = dt4;
             Report rep = new Report();
             DateTime to;
             DateTime from;
@@ -280,18 +285,187 @@ namespace MedicoPlus.Controllers
             {
                 to = Convert.ToDateTime(collection["TO"]);
                 from = Convert.ToDateTime(collection["From"]);
-                dt = rep.GenerateFilteredReport(Convert.ToInt32(collection["AreaId"]), Convert.ToInt32(collection["CityId"]), Convert.ToInt32(collection["DiseaseId"]), Convert.ToDateTime(collection["TO"]), Convert.ToDateTime(collection["From"]), 1);
+                dt = rep.GenerateFilteredReport(Convert.ToInt32(collection["AreaId"]), Convert.ToInt32(collection["CityId"]), Convert.ToInt32(collection["DiseaseId"]), Convert.ToDateTime(collection["TO"]), Convert.ToDateTime(collection["From"]), 1, Convert.ToInt32(collection["DoctorId"]));
             }
             catch (Exception e) {
                 Console.WriteLine(e);
-                to =DateTime.Now ;
-                from =DateTime.Now ;
-                dt = rep.GenerateFilteredReport(Convert.ToInt32(collection["AreaId"]), Convert.ToInt32(collection["CityId"]), Convert.ToInt32(collection["DiseaseId"]), Convert.ToDateTime(collection["TO"]), Convert.ToDateTime(collection["From"]),0);
+                to = DateTime.Now;
+                from = DateTime.Now;
+                dt = rep.GenerateFilteredReport(Convert.ToInt32(collection["AreaId"]), Convert.ToInt32(collection["CityId"]), Convert.ToInt32(collection["DiseaseId"]), Convert.ToDateTime(collection["TO"]), Convert.ToDateTime(collection["From"]), 0, Convert.ToInt32(collection["DoctorId"]));
             }
-            
-            
-            return View(dt); 
-        }
 
+
+            return View(dt);
+        }
+        public ActionResult FormP() {
+            DiseaseModel disease = new DiseaseModel();
+            DataTable dt1 = disease.SelectAll();
+
+            //dt1.DefaultView.Sort = "DiseaseId";
+            ViewBag.Disease = dt1;
+
+            Report rep = new Report();
+            DataTable dt = rep.GenerateReport();
+
+            return View(dt);
+
+        }
+        public ActionResult VerifyDoctor()
+        {
+
+
+            DoctorModel doc = new DoctorModel();
+            doc.Status = "PENDING";
+            DataTable dt = doc.SelectDoctorByStatus();
+
+
+            return View(dt);
+
+        }
+        [HttpPost]
+        public ActionResult UpdateDoctor(FormCollection collection)
+        {
+
+
+            DoctorModel doc = new DoctorModel();
+            doc.DoctorId = Convert.ToInt32(collection["DoctorId"]);
+            doc.Status = Convert.ToString(collection["Status"]);
+            doc.IsActive = true;
+            doc.UpdateStatus();
+
+
+
+            return RedirectToAction("VerifyDoctor");
+
+        }
+        public ActionResult DoctorList() {
+            DoctorModel Doc = new DoctorModel();
+
+            DataTable dt = Doc.SelectAllDoctor();
+
+
+            return View(dt);
+
+
+        }
+        public ActionResult DoctorProfile(int id)
+        {
+            DoctorModel doc = new DoctorModel();
+            doc.DoctorId = id;
+            //doc.DoctorId = Convert.ToInt32(collection["DoctorId"]);
+            doc.SelectById();
+            DoctorLocation docLoc = new DoctorLocation();
+            docLoc.DoctorId = doc.DoctorId;
+            DataTable dt = docLoc.SelectByDoctorId();
+            ViewBag.Location = dt;
+
+            return View(doc);
+
+        }
+        [HttpGet]
+        public ActionResult EditCity(int id)
+        {
+            CityModel obj = new CityModel();
+            obj.CityId = id;
+            obj.SelectAllCityById();
+            return View(obj);
+
+        }
+        [HttpPost]
+        public ActionResult EditCity(FormCollection collection)
+        {
+            CityModel obj = new CityModel();
+            obj.CityId = Convert.ToInt32(collection["CityId"]);
+            obj.CityName = Convert.ToString(collection["CityName"]);
+            obj.UpdateCity();
+            return RedirectToAction("");
+
+        }
+        public ActionResult EditArea(int id)
+        {
+            AreaModel obj = new AreaModel();
+            obj.AreaId = id;
+            obj.SelectAllAreaById();
+            ZoneModel zones = new ZoneModel();
+            DataTable dt = zones.SelectAllZone();
+            ViewBag.zones = dt;
+            return View(obj);
+
+        }
+        [HttpPost]
+        public ActionResult EditArea(FormCollection collection)
+        {
+            AreaModel obj = new AreaModel();
+            obj.AreaId = Convert.ToInt32(collection["AreaId"]);
+            obj.AreaName = Convert.ToString(collection["AreaName"]);
+            obj.ZoneId = Convert.ToInt32(collection["ZoneId"]);
+            obj.IsActive = Convert.ToBoolean(collection["IsActive"]);
+            obj.UpdateArea();
+            return RedirectToAction("");
+
+        }
+        public ActionResult EditSpeciality(int id)
+        {
+            SpecialityModel obj = new SpecialityModel();
+            obj.SpecialityId = id;
+            obj.SelectSpecialityById();
+            
+            
+            return View(obj);
+
+        }
+        [HttpPost]
+        public ActionResult EditSpeciality(FormCollection collection)
+        {
+            SpecialityModel obj = new SpecialityModel();
+            obj.SpecialityId = Convert.ToInt32(collection["SpecialityId"]);
+            obj.SpName = Convert.ToString(collection["SpName"]);
+            
+            obj.IsActive = Convert.ToBoolean(collection["IsActive"]);
+            obj.UpdateSpeciality();
+            return RedirectToAction("");
+
+        }
+        public ActionResult EditDisease(int id)
+        {
+            DiseaseModel obj = new DiseaseModel();
+            obj.DiseaseId = id;
+            obj.SelectDiseaseById();
+
+
+            return View(obj);
+
+        }
+        [HttpPost]
+        public ActionResult EditDisease(FormCollection collection)
+        {
+            DiseaseModel obj = new DiseaseModel();
+            obj.DiseaseId = Convert.ToInt32(collection["DiseaseId"]);
+            obj.DiseaseName = Convert.ToString(collection["DiseaseName"]);
+
+            obj.IsActive = Convert.ToBoolean(collection["IsActive"]);
+            obj.UpdateDisease();
+            return RedirectToAction("");
+
+        }
+        public ActionResult EditZone(int id)
+        {
+            ZoneModel obj = new ZoneModel();
+            obj.ZoneId = id;
+            obj.SelectZoneById();
+            
+            return View(obj);
+
+        }
+        [HttpPost]
+        public ActionResult EditZone(FormCollection collection)
+        {
+            ZoneModel obj = new ZoneModel();
+            obj.ZoneId = Convert.ToInt32(collection["ZoneId"]);
+            obj.ZoneName = Convert.ToString(collection["ZoneName"]);
+            obj.UpdateZone();
+            return RedirectToAction("GetAllZone");
+
+        }
     }
 }

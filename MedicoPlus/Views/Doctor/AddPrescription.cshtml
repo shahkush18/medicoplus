@@ -1,0 +1,462 @@
+﻿@using System.Data
+@model DataTable
+@{
+    DataTable Disease = ViewBag.Disease;
+    ViewBag.Title = "AddPrescription";
+    Layout = "~/Views/Shared/_medicoDoctor.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="page-title">Prescription</h4>
+        <ol class="breadcrumb">
+            <li>
+                Enter details
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" action="/Doctor/AddPrescription" method="post">
+                        <input type="hidden" name="AppointmentId" value="@Model.Rows[0]["AppointmentId"]" />
+                        <h4 align="center" class="m-t-0 header-title"><b>Clinic Name</b></h4>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Doctor Name</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" disabled value="@Model.Rows[0]["DocName"]" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Clinic Address</label>
+                            <div class="col-md-10">
+                                <textarea type="text" class="form-control" disabled name="">@Model.Rows[0]["ClinicName"]</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Patient Name</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" disabled value="@Model.Rows[0]["patientName"]" name="patientname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Patient Address</label>
+                            <div class="col-md-10">
+                                <textarea type="text" class="form-control" name="patientaddress"disabled value="@Model.Rows[0]["Address"]" rows="5">@Model.Rows[0]["Address"]</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Gender</label>
+                            <div class="col-md-10">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="inlineRadio1" value="Male" name="Gender" checked="">
+                                    <label for="inlineRadio1"> Male </label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" id="inlineRadio2" value="Female" name="Gender">
+                                    <label for="inlineRadio2"> Female </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Age</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" disabled name="age" value="@Model.Rows[0]["Age"]">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Phone number</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="number" maxlength="10" minlength="10" disabled value="@Model.Rows[0]["Phone"]">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Patient Occupation</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="patientoccupation" disabled value="@Model.Rows[0]["Occupation"]">
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Disease</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="disease">
+                                    @for (int i = 0; i < Disease.Rows.Count; i++)
+                                    {
+                                        <option value="@Disease.Rows[i]["DiseaseId"]">@Disease.Rows[i]["DiseaseName"]</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                       
+
+                        <h4 align="center" class="m-t-0 header-title"><b>Medicines</b></h4>
+
+                        <!-- Medicines-->
+                        <!--Medi1-->
+                        <div class="form-group" id="med1">
+                            <label class="col-md-2 control-label">Medicine #1</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Med1">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="Quant1" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox11" type="checkbox" name="Time1"value="MOR">
+                                    <label for="checkbox11">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox12" type="checkbox" name="Time1"value="AFT">
+                                    <label for="checkbox12">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox13" type="checkbox" name="Time1" value="NIG">
+                                    <label for="checkbox13">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi2-->
+                        <div class="form-group" id="med2">
+                            <label class="col-md-2 control-label">Medicine #2</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="med2">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="Quant2" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox21" type="checkbox" name="Time2"value="MOR">
+                                    <label for="checkbox21">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox22" type="checkbox"name="Time2"value="AFT">
+                                    <label for="checkbox22">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox23" type="checkbox"name="Time2"value="NIG">
+                                    <label for="checkbox23">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi3-->
+                        <div class="form-group" id="med3">
+                            <label class="col-md-2 control-label">Medicine #3</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Med3">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="Quant3" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox31" type="checkbox"name="Time3"value="MOR">
+                                    <label for="checkbox31">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox32" type="checkbox"name="Time3"value="AFT">
+                                    <label for="checkbox32">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox33" type="checkbox"name="Time3"value="NIG">
+                                    <label for="checkbox33">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="s4">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <a href="#" onclick="show4(); return false">Add more</a>
+                                <script type="text/javascript">
+										function show4() {
+											var y=document.getElementById("s4");
+											y.style.display="none";
+											var x=document.getElementById("med4");
+											x.style.display="block";
+											var x=document.getElementById("med5");
+											x.style.display="block";
+											var y=document.getElementById("s6");
+											y.style.display="block";
+										}
+                                </script>
+                            </div>
+                        </div>
+                        <!--Medi4-->
+                        <div style="display: none" class="form-group" id="med4">
+                            <label class="col-md-2 control-label">Medicine #4</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Med4">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="Quant4" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox41" type="checkbox"name="Time4"value="MOR">
+                                    <label for="checkbox41">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox42" type="checkbox"name="Time4"value="AFT">
+                                    <label for="checkbox42">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox43" type="checkbox"name="Time4"value="NIG">
+                                    <label for="checkbox43">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi5-->
+                        <div style="display: none" class="form-group" id="med5">
+                            <label class="col-md-2 control-label">Medicine #5</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="Med5">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="Quant5" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox51" type="checkbox"name="Time5"value="MOR">
+                                    <label for="checkbox51">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox52" type="checkbox"name="Time5" value="AFT">
+                                    <label for="checkbox52">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox53" type="checkbox"name="Time5" value="NIG">
+                                    <label for="checkbox53">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: none" class="form-group" id="s6">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <a href="#" onclick="show6(); return false">Add more</a>
+                                <script type="text/javascript">
+										function show6() {
+											var y=document.getElementById("s6");
+											y.style.display="none";
+											var x=document.getElementById("med6");
+											x.style.display="block";
+											var x=document.getElementById("med7");
+											x.style.display="block";
+											var x=document.getElementById("med8");
+											x.style.display="block";
+											var x=document.getElementById("med9");
+											x.style.display="block";
+											var x=document.getElementById("med10");
+											x.style.display="block";
+										}
+                                </script>
+                            </div>
+                        </div>
+                        <!--Medi6-->
+                        <div style="display: none" class="form-group" id="med6">
+                            <label class="col-md-2 control-label">Medicine #6</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="med6">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="numberofdays6" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox61" type="checkbox">
+                                    <label for="checkbox61">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox62" type="checkbox">
+                                    <label for="checkbox62">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox63" type="checkbox">
+                                    <label for="checkbox63">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi7-->
+                        <div style="display: none" class="form-group" id="med7">
+                            <label class="col-md-2 control-label">Medicine #7</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="med7">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="numberofdays7" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox71" type="checkbox">
+                                    <label for="checkbox71">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox72" type="checkbox">
+                                    <label for="checkbox72">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox73" type="checkbox">
+                                    <label for="checkbox73">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi8-->
+                        <div style="display: none" class="form-group" id="med8">
+                            <label class="col-md-2 control-label">Medicine #8</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="med8">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="numberofdays8" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox81" type="checkbox">
+                                    <label for="checkbox81">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox82" type="checkbox">
+                                    <label for="checkbox82">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox83" type="checkbox">
+                                    <label for="checkbox83">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi9-->
+                        <div style="display: none" class="form-group" id="med9">
+                            <label class="col-md-2 control-label">Medicine #9</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="med9">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="numberofdays9" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox91" type="checkbox">
+                                    <label for="checkbox91">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox92" type="checkbox">
+                                    <label for="checkbox92">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox93" type="checkbox">
+                                    <label for="checkbox93">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Medi10-->
+                        <div style="display: none" class="form-group" id="med10">
+                            <label class="col-md-2 control-label">Medicine #10</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="med10">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="numberofdays10" placeholder="Quantity">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox101" type="checkbox">
+                                    <label for="checkbox101">
+                                        Morning
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox102" type="checkbox">
+                                    <label for="checkbox102">
+                                        Afternoon
+                                    </label>
+                                </div>
+                                <div class="checkbox checkbox-primary checkbox-inline">
+                                    <input id="checkbox103" type="checkbox">
+                                    <label for="checkbox103">
+                                        Night
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Medicines end-->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Remarks</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" placeholder="Add some remarks" name="remarks" ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 control-label"></div>
+                            <div class="col-md-10">
+                                <button type="submit" class="btn btn-purple waves-effect waves-light">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+            var resizefunc = [];
+</script>
+
+
+

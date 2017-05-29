@@ -1,0 +1,19 @@
+﻿@using MedicoPlus.Models
+@model DiseaseModel
+@{
+    ViewBag.Title = "EditDisease";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+
+<h2>Edit Disease</h2>
+<form action="/Admin/CreateDisease" method="post">
+
+    <div class="form-group">
+        <label> Disease Name</label>
+        <input type="hidden" name="DiseaseId" value="@Model.DiseaseId"/>
+        <input type="text" name="DiseaseName" placeholder="Disease Name" class="form-control" value="@Model.DiseaseName" />
+    </div>
+    
+
+    <button type="submit" value="Add Disease" class="btn btn-purple waves-effect waves-light">Change</button>
+</form>

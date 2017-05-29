@@ -1,0 +1,88 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewBag.Title = "VerifyDoctor";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+
+<body class="smallscreen fixed-left-void">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="page-title">Pending Doctor Verification List</h4>
+                <ol></ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-box">
+                    <div class="row">
+
+                        <div class="p-20">
+                            <table class="table table-striped m-0">
+                                <thead>
+                                    <tr>
+                                        <th>Registration No</th>
+                                        <th>Doctor Name</th>
+                                        <th>Speciality</th>
+                                        <th>Documents</th>
+                                        <th>Gender</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Cancel</th>
+                                        <th>Verify</th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @for (int i = 0; i < Model.Rows.Count; i++)
+                                    {
+                                       
+
+                                        
+
+                                        <tr>
+                                            <th scope="row">@Model.Rows[i]["RegistrationNo"]</th>
+                                            <td>@Model.Rows[i]["DocName"]</td>
+                                            <td>@Model.Rows[i]["SpName"]</td>
+                                            <td><a href="@Model.Rows[i]["Documents"]">@Model.Rows[i]["Documents"]</a></td>
+                                            <td>@Model.Rows[i]["Gender"]</td>
+                                            <td>@Model.Rows[i]["Mobile"]</td>
+                                            <td>@Model.Rows[i]["Email"]</td>
+                                            <td>
+                                                <form method="post" action="UpdateDoctor">
+                                                    <input type="hidden" name="DoctorId" value=@Model.Rows[i]["DoctorId"]>
+                                                    <input type="hidden" name="Status" value="REJECTED">
+                                                    <button type="submit" class="btn btn-default waves-effect waves-light" name="Cancel">Cancel</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="post" action="UpdateDoctor">
+                                                    <input type="hidden" name="DoctorId" value=@Model.Rows[i]["DoctorId"]>
+                                                    <input type="hidden" name="Status" value="VERIFIED">
+                                                    <button type="submit" class="btn btn-default waves-effect waves-light" name="Cancel">Verify</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+

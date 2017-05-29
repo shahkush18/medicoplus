@@ -13,6 +13,7 @@
             <td>AreaName</td>
             <td>ZoneId</td>
             <td>IsActive</td>
+            <td>Edit</td>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,7 @@
                 <td>@Model.Rows[i]["AreaName"]</td>
                 <td>@Model.Rows[i]["ZoneId"]</td>
                 <td>@Model.Rows[i]["IsActive"]</td>
+                <td><a href="/Admin/EditArea/@Model.Rows[i]["AreaId"]">Edit</a></td>
             </tr>
         }
     </tbody>

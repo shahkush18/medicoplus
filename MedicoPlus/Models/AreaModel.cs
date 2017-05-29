@@ -55,22 +55,43 @@ namespace MedicoPlus.Models
 
             return DataAccess.SelectData(query, lstParams);
         }
-
+        
         public DataTable SelectAllAreaById()
         {
-            SqlConnection connection1 = new SqlConnection();
-            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=MedicoPlus;Integrated Security=true";
-            SqlCommand command1 = new SqlCommand();
-            command1.CommandText = "SELECT * FROM Area WHERE ZoneId=" + this.ZoneId;
-            command1.Connection = connection1;
-            DataTable dt = new DataTable();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter();
-            dataAdapter.SelectCommand = command1;
-            connection1.Open();
-            dataAdapter.Fill(dt);
-            connection1.Close();
+            string query = "SELECT * FROM Area WHERE AreaId = @AreaId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@AreaId", this.AreaId));
+            DataTable dt = DataAccess.SelectData(query,lstparams);
+            this.ZoneId = Convert.ToInt32(dt.Rows[0]["ZoneId"]);
+            this.AreaName = Convert.ToString(dt.Rows[0]["AreaName"]);
+            this.AreaId = Convert.ToInt32(dt.Rows[0]["AreaId"]);
+
             return dt;
           
+
+        }
+        public int UpdateArea()
+        {
+            string query = "UPDATE Area SET AreaName = @AreaName , ZoneId = @ZoneId , IsActive = @IsActive WHERE AreaId = @AreaId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@AreaName", this.AreaName));
+            lstparams.Add(new SqlParameter("@ZoneId", this.ZoneId));
+            lstparams.Add(new SqlParameter("@AreaId", this.AreaId));
+            lstparams.Add(new SqlParameter("@IsActive", this.IsActive));
+
+
+            return DataAccess.ModifyData(query, lstparams);
+        }
+        public DataTable SelectAllAreaByZoneId()
+        {
+            string query = "SELECT * FROM Area WHERE ZoneId = @ZoneId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@ZoneId", this.ZoneId));
+            DataTable dt = DataAccess.SelectData(query, lstparams);
+            
+
+            return dt;
+
 
         }
     }

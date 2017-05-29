@@ -1,0 +1,171 @@
+﻿
+
+@using System.Data
+@model DataTable
+@{
+    DataTable Disease = (DataTable)ViewBag.Disease;
+
+    ViewBag.Title = "ViewPrescripption";
+    Layout = "~/Views/Shared/_MedicalStoreLayout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="page-title">Prescription</h4>
+        <ol class="breadcrumb">
+            <li>
+                Your Prescription
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" action="#" method="post">
+                        <input type="hidden" name="AppointmentId" value="@Model.Rows[0]["AppointmentId"]" />
+                        <h4 align="center" class="m-t-0 header-title"><b>Clinic Name</b></h4>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Doctor Name</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" disabled value="@Model.Rows[0]["DocName"]" name="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Clinic Address</label>
+                            <div class="col-md-10">
+                                <textarea type="text" class="form-control" disabled name="">@Model.Rows[0]["ClinicName"]</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Patient Name</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" disabled value="@Model.Rows[0]["patientName"]" name="patientname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Patient Address</label>
+                            <div class="col-md-10">
+                                <textarea type="text" class="form-control" name="patientaddress" disabled value="@Model.Rows[0]["Address"]" rows="5">@Model.Rows[0]["Address"]</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Gender</label>
+                            <div class="col-md-10">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="inlineRadio1" value="Male" name="Gender" checked="">
+                                    <label for="inlineRadio1"> Male </label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" id="inlineRadio2" value="Female" name="Gender">
+                                    <label for="inlineRadio2"> Female </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Age</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" disabled name="age" value="@Model.Rows[0]["Age"]">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Phone number</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="number" maxlength="10" minlength="10" disabled value="@Model.Rows[0]["Phone"]">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Patient Occupation</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="patientoccupation" disabled value="@Model.Rows[0]["Occupation"]">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Disease</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="disease" disabled>
+                                    @for (int i = 0; i < Disease.Rows.Count; i++)
+                                    {
+                                        if (Convert.ToInt32(Model.Rows[0]["DiseaseId"]) == Convert.ToInt32(Disease.Rows[i]["DiseaseId"]))
+                                        {
+                                            <option value="@Disease.Rows[i]["DiseaseId"]">@Disease.Rows[i]["DiseaseName"]</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <h4 align="center" class="m-t-0 header-title"><b>Medicines</b></h4>
+
+                        <!-- Medicines-->
+                        <!--Medi1-->
+                        <div class="form-group" id="med1">
+                            <label class="col-md-2 control-label">Medicine #1</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Med1" disabled value="@Model.Rows[0]["Prescription"]">
+                            </div>
+
+                        </div>
+                        <!--Medi2-->
+                        <div class="form-group" id="med2">
+                            <label class="col-md-2 control-label">Medicine #2</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="med2" disabled value="@Model.Rows[0]["Prescription2"]">
+                            </div>
+
+                        </div>
+                        <!--Medi3-->
+                        <div class="form-group" id="med3">
+                            <label class="col-md-2 control-label">Medicine #3</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Med3" disabled value="@Model.Rows[0]["Prescription3"]">
+                            </div>
+
+
+                        </div>
+
+                        <!--Medi4-->
+                        <div style="display: none" class="form-group" id="med4">
+                            <label class="col-md-2 control-label">Medicine #4</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Med4" disabled value="@Model.Rows[0]["Prescription4"]">
+                            </div>
+
+                        </div>
+                        <!--Medi5-->
+                        <div style="display: none" class="form-group" id="med5">
+                            <label class="col-md-2 control-label">Medicine #5</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Med5" disabled value="@Model.Rows[0]["Prescription5"]">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Remarks</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" name="remarks" disabled value="@Model.Rows[0]["DrRemarks"]">@Model.Rows[0]["DrRemarks"]</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 control-label"></div>
+                            <div class="col-md-10">
+                                <button type="submit" class="btn btn-purple waves-effect waves-light">Order Medicine</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+            var resizefunc = [];
+</script>
+
+
+

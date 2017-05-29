@@ -79,5 +79,13 @@ namespace MedicoPlus.Models
 
 
         }
+        public int UpdateCity()
+        {
+            string query = "UPDATE City SET CityName = @CityName WHERE CityId = @CityId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@CityName", this.CityName));
+            lstparams.Add(new SqlParameter("@CityId", this.CityId));
+            return DataAccess.ModifyData(query, lstparams);
+        }
     }
 }

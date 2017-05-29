@@ -1,0 +1,53 @@
+﻿@using System.Data
+@model DataTable
+@{
+    int AppointmentId = ViewBag.AppointmentId;
+    ViewBag.Title = "MedicalStoreList";
+    Layout = "~/Views/Shared/_AppUserLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="table-responsive">
+                <table class="table table-actions-bar m-b-0">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Store Name</th>
+                            <th>Email</th>
+                            <th>Area Name</th>
+                            <th>Phone</th>
+                            <th>Discount</th>
+                            <th>Foreward</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Rows.Count; i++)
+                        {
+                            <tr>
+                                <td><center><img style="max-width: 80px; max-height: 80px" src=@Model.Rows[i]["Photo"] class="thumb-la" alt=""></center></td>
+                                <td><span class="text-custom">@Model.Rows[i]["StoreName"]</span></td>
+                                <td>@Model.Rows[i]["Email"]</td>
+                                <td>@Model.Rows[i]["AreaName"]</td>
+                                <td>@Model.Rows[i]["Phone"]</td>
+                                <td>
+                                    @Model.Rows[i]["MinDiscount"]
+                                </td>
+                                <td>
+                                    <form action="/AppUser/ForwardPrescription" method="post">
+                                        <input type="hidden" name="AppId" value="@AppointmentId" />
+                                        <input type="hidden" name="StoreId" value="@Model.Rows[i]["MedicalStoreId"]" />
+                                        <button class="btn-purple" type="submit" >Forward</button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -9,16 +9,18 @@
     DataTable Area = (DataTable)ViewBag.Area;
 }
 
+<h2>Previously Submitted Reports</h2>
+<div class="breadcrumb"></div>
 
+<div class="col-md-12 card-box" id="#Pending">
+    
 
-<div class="col-md-10" id="#Pending">
-    <h2>Previously Submitted Reports</h2>
-
-    <table class="table table-striped m-0">
+    <table class="table p-20 table-striped m-0">
         <thead>
             <tr>
                 <th>Disease Name</th>
                 <th>Patient Name</th>
+                <th>Gender</th>
                 <th>Patient Address</th>
             </tr>
         </thead>
@@ -26,8 +28,9 @@
             @for (int i = 0; i < reports.Rows.Count; i++)
             {
                 <tr>
-                    <td>@reports.Rows[i]["DiseaseId"]</td>
+                    <td>@reports.Rows[i]["DiseaseName"]</td>
                     <td>@reports.Rows[i]["PatientName"]</td>
+                    <td>@reports.Rows[i]["Gender"]</td>
                     <td>@reports.Rows[i]["PatientAddress"]</td>
 
                 </tr>

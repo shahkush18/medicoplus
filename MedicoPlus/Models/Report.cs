@@ -44,7 +44,7 @@ namespace MedicoPlus.Models
 
         }
         public DataTable SelectAllReport(int DoctorId) {
-            string query = "SELECT * FROM Report WHERE DoctorId =@DoctorId";
+            string query = "SELECT Report.*, Disease.DiseaseName FROM Report INNER JOIN Disease ON Report.DiseaseId=Disease.DiseaseId WHERE DoctorId =@DoctorId ORDER BY Report.Date DESC";
 
             List<SqlParameter> lstParams = new List<SqlParameter>();
             lstParams.Add(new SqlParameter("@DoctorId",DoctorId));
@@ -54,22 +54,23 @@ namespace MedicoPlus.Models
        
          public DataTable GenerateReport()
         {
-            string query = "SELECT  Report.PatientName , Report.PatientAddress , Report.Gender , Report.Mobile , Report.Age , Report.Occupation , Disease.DiseaseName , Doctor.DocName , Report.Date , Area.AreaName , City.CityName FROM Report INNER JOIN Disease ON Report.DiseaseId = Disease.DiseaseId INNER JOIN City ON Report.CityId = City.CityId INNER JOIN Area ON Report.AreaId = Area.AreaId INNER JOIN Doctor ON Report.DoctorId = Doctor.DoctorId ";
+            string query = "SELECT  Report.PatientName , Report.PatientAddress , Report.Gender , Report.Mobile , Report.Age , Report.Occupation,Report.DiseaseId , Disease.DiseaseName , Doctor.DocName , Report.Date , Area.AreaName , City.CityName FROM Report INNER JOIN Disease ON Report.DiseaseId = Disease.DiseaseId INNER JOIN City ON Report.CityId = City.CityId INNER JOIN Area ON Report.AreaId = Area.AreaId INNER JOIN Doctor ON Report.DoctorId = Doctor.DoctorId ";
 
             List<SqlParameter> lstParams = new List<SqlParameter>();
            
 
             return DataAccess.SelectData(query,lstParams);
         }
-        public DataTable GenerateFilteredReport(int AreaId,int CityId,int DiseaseId,DateTime From,DateTime To,int temp)
+        public DataTable GenerateFilteredReport(int AreaId,int CityId,int DiseaseId,DateTime From,DateTime To,int temp,int DoctorId)
         {
-            string query = @"SELECT  Report.PatientName , Report.PatientAddress , Report.Gender , Report.Mobile , Report.Age , Report.Occupation , Disease.DiseaseName , Doctor.DocName , Report.Date , Area.AreaName , City.CityName FROM Report INNER JOIN Disease ON Report.DiseaseId = Disease.DiseaseId INNER JOIN City ON Report.CityId = City.CityId INNER JOIN Area ON Report.AreaId = Area.AreaId INNER JOIN Doctor ON Report.DoctorId = Doctor.DoctorId 
+            string query = @"SELECT  Report.* , Disease.* , Doctor.DocName , Area.AreaName , City.CityName FROM Report INNER JOIN Disease ON Report.DiseaseId = Disease.DiseaseId INNER JOIN City ON Report.CityId = City.CityId INNER JOIN Area ON Report.AreaId = Area.AreaId INNER JOIN Doctor ON Report.DoctorId = Doctor.DoctorId 
 
                             WHERE (@AreaID = 0 OR @AreaID = Report.AreaId)
 
                              AND(@CityId = 0 OR @CityId = Report.CityId)
 
                                 AND(@DiseaseId = 0 OR @DiseaseId = Report.DiseaseId)
+                                            AND(@DoctorId = 0 OR Report.DoctorId = @DoctorId)
                                     AND (@Temp=0 OR Report.Date BETWEEN @To AND @From)";
 
             List<SqlParameter> lstParams = new List<SqlParameter>();
@@ -77,6 +78,7 @@ namespace MedicoPlus.Models
             lstParams.Add(new SqlParameter("@CityId", CityId));
             lstParams.Add(new SqlParameter("@DiseaseId", DiseaseId));
             lstParams.Add(new SqlParameter("@Temp", temp));
+            lstParams.Add(new SqlParameter("@DoctorId", DoctorId ));
             lstParams.Add(new SqlParameter("@From", From.Date));
             lstParams.Add(new SqlParameter("@To", To.Date));
 

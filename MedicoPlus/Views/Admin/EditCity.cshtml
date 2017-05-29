@@ -1,0 +1,21 @@
+﻿@using MedicoPlus.Models
+@model CityModel
+@{
+    ViewBag.Title = "EditCity";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+
+<h2>Edit City</h2>
+<form action="/Admin/EditCity" method="post">
+    <div class="form-group">
+        <label>City Name </label>
+        <input type="text" name="CityName" placeholder="City Name" class="form-control" value="@Model.CityName" />
+        <input type="hidden" name="CityId" value="@Model.CityId"/>
+    </div>
+    
+
+    <button type="submit" value="Add City" class="btn btn-purple waves-effect waves-light">Change</button>
+
+</form>
+
+

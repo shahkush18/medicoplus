@@ -5,8 +5,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-    <meta name="author" content="Coderthemes">
     <link rel="shortcut icon" href=@Url.Content("~/Content/myTemplate/assets/images/favicon_1.ico")>
     <title>MedicoPlus Admin</title>
     <!--Morris Chart CSS -->
@@ -46,7 +44,24 @@ $(document).ready(function() {
 
    var a = document.createElement('a');
    a.href = data_type + ', ' + table_html;
-   a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+   a.download = 'FormP' + Math.floor((Math.random() * 9999) + 10000000) + '.xls';
+   a.click();
+ });
+});
+    </script>
+    <script>
+$(document).ready(function() {
+ $("#btnExport1").click(function(e) {
+   e.preventDefault();
+
+   //getting data from our table
+   var data_type = 'data:application/vnd.ms-excel';
+   var table_div = document.getElementById('table_wrapper1');
+   var table_html = table_div.outerHTML.replace(/ /g, '%20');
+
+   var a = document.createElement('a');
+   a.href = data_type + ', ' + table_html;
+   a.download = 'LineList' + Math.floor((Math.random() * 9999) + 1000000) + '.xls';
    a.click();
  });
 });
@@ -80,17 +95,17 @@ $(document).ready(function() {
                                 <a href="#" id="btn-fullscreen" class="waves-effect"><i class="icon-size-fullscreen"></i></a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle profile waves-effect" data-toggle="dropdown" aria-expanded="true"><img src="/Content/myTemplate/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                                <a href="#" class="dropdown-toggle profile waves-effect" data-toggle="dropdown" aria-expanded="true"><img src="/Content/myTemplate/assets/images/users/avatar-1.png" alt="user-img" class="img-circle"> </a>
                                 <ul class="dropdown-menu">
                                     @*<li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
-                                    <li><a href="javascript:void(0)"><i class="ti-settings m-r-5"></i> Settings</a></li>
-                                    <li><a href="javascript:void(0)"><i class="ti-lock m-r-5"></i> Lock screen</a></li>*@
-                                    <li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
+    <li><a href="javascript:void(0)"><i class="ti-settings m-r-5"></i> Settings</a></li>
+    <li><a href="javascript:void(0)"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
+    <li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>*@
 
                                     @if (Session["Admin"] != null)
                                     {
                                         <li>
-                                            <a href="/Admin/LogIn"><i class="ti-power-off m-r-5"></i> Logout</a>
+                                            <a href="/Access/Login"><i class="ti-power-off m-r-5"></i> Logout</a>
                                         </li>}
                                     else
                                     {
@@ -147,19 +162,12 @@ $(document).ready(function() {
                         <li class="has_sub">
                             <a href="#" class="waves-effect waves-light"><i class="ti-id-badge"></i><span> Manage Doctors </span> </a>
                             <ul class="list-unstyled">
-                                <li><a href="adc.html">Authenticate Doctors</a></li>
-                                <li><a href="upc.html">View List</a></li>
+                                <li><a href="/Admin/VerifyDoctor">Authenticate Doctors</a></li>
+                                <li><a href="/Admin/DoctorList">View List</a></li>
                             </ul>
                         </li>
                         <li class="has_sub">
-                            <a href="#" class="waves-effect waves-light"><i class="ti-user"></i> <span> Profile </span> </a>
-                            <ul class="list-unstyled">
-                                <li><a href="#">My Profile</a></li>
-                                <li><a href="#">Edit Profile</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <a href="feedback.html" class="waves-effect waves-light"><i class="ti-pencil-alt"></i><span>Complaints/Feedback</span></a>
+                            <a href="feedback.html" class="waves-effect waves-light"><i class="ti-pencil-alt"></i><span>Broadcast Message</span></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>

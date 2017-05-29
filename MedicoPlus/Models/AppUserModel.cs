@@ -70,6 +70,7 @@ namespace MedicoPlus.Models
             this.Gender = Convert.ToString(dt.Rows[0]["Gender"]);
             this.CityId = Convert.ToInt32(dt.Rows[0]["CityId"]);
             this.AreaId = Convert.ToInt32(dt.Rows[0]["AreaId"]);
+            this.Address = Convert.ToString(dt.Rows[0]["Address"]);
             this.Email= Convert.ToString(dt.Rows[0]["Email"]);
             this.Phone = Convert.ToString(dt.Rows[0]["Phone"]);
             this.IsActive= Convert.ToBoolean(dt.Rows[0]["IsActive"]);
@@ -82,10 +83,10 @@ namespace MedicoPlus.Models
         }
         public bool Authenticate()
         {
-            string query = "SELECT * FROM AppUser WHERE AUName = @AUname AND Password = @Password AND IsActive = 1";
+            string query = "SELECT * FROM AppUser WHERE Email = @Email AND Password = @Password AND IsActive = 1";
 
             List<SqlParameter> lstParams = new List<SqlParameter>();
-            lstParams.Add(new SqlParameter("@AUname", this.AUName));
+            lstParams.Add(new SqlParameter("@Email", this.Email));
             lstParams.Add(new SqlParameter("@Password", this.Password));
             DataTable dt = DataAccess.SelectData(query, lstParams);
 
@@ -112,6 +113,74 @@ namespace MedicoPlus.Models
             {
                 return false;
             }
+        }
+        public int UpdateAppUser()
+        {
+
+            string query = "UPDATE AppUser SET AUName=@AUName,Gender=@Gender,Phone=@Phone,Mobile=@Mobile,Email=@Email,Address=@Address,AreaId=@AreaId,CityId=@CityId,Photo=@Photo  WHERE AppUserId = @AppUserId";
+            List<SqlParameter> lstParams = new List<SqlParameter>();
+            lstParams.Add(new SqlParameter("@AUName", this.AUName));
+            lstParams.Add(new SqlParameter("@Gender", this.Gender));
+            
+            lstParams.Add(new SqlParameter("@Phone", this.Phone));
+            lstParams.Add(new SqlParameter("@Mobile", this.Mobile));
+            lstParams.Add(new SqlParameter("@Email", this.Email));
+            lstParams.Add(new SqlParameter("@Address", this.Address));
+            lstParams.Add(new SqlParameter("@AreaId", this.AreaId));
+            lstParams.Add(new SqlParameter("@CityId", this.CityId));
+            
+            lstParams.Add(new SqlParameter("@Password", this.Password));
+            lstParams.Add(new SqlParameter("@Photo", this.Photo));
+            lstParams.Add(new SqlParameter("@AppUserId", this.AppUserId));
+
+            return DataAccess.ModifyData(query, lstParams);
+        }
+        public int InsertAndroidUser() {
+            string query = "INSERT INTO AppUser (AUName,Email,Password,IsActive) VALUES (@AUName,@Email,@Password,@IsActive)";
+            List<SqlParameter> lstparam = new List<SqlParameter>();
+            lstparam.Add(new SqlParameter("@AUName",this.AUName));
+            lstparam.Add(new SqlParameter("@Email", this.Email));
+            lstparam.Add(new SqlParameter("@Password", this.Password));
+            lstparam.Add(new SqlParameter("@IsActive", true));
+            return DataAccess.ModifyData(query, lstparam);
+
+
+        }
+        public bool AuthenticateAndroid()
+        {
+            string query = "SELECT * FROM AppUser WHERE Email = @Email AND Password = @Password AND IsActive = 1";
+
+            List<SqlParameter> lstParams = new List<SqlParameter>();
+            lstParams.Add(new SqlParameter("@Email", this.Email));
+            lstParams.Add(new SqlParameter("@Password", this.Password));
+            DataTable dt = DataAccess.SelectData(query, lstParams);
+
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public DataTable SelectAndroidAppUserById()
+        {
+            SqlConnection connection1 = new SqlConnection();
+            connection1.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=MedicoPlus;Integrated Security=true";
+            SqlCommand command1 = new SqlCommand();
+            command1.CommandText = "SELECT * FROM AppUser WHERE AppUserId=" + this.AppUserId;
+            command1.Connection = connection1;
+            DataTable dt = new DataTable();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            dataAdapter.SelectCommand = command1;
+            connection1.Open();
+            dataAdapter.Fill(dt);
+            connection1.Close();
+            
+            return dt;
+
         }
     }
 }

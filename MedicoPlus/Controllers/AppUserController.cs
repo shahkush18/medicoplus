@@ -73,14 +73,32 @@ namespace MedicoPlus.Controllers
             }
             A.DOB = Convert.ToDateTime(collection["DOB"]);
             A.InsertAppUser();
+            SendMail(A.Email, "You have been successfully registered with MedicoPlus", "Thanks For Registering With Us !");
 
 
             return RedirectToAction("Login","Access");
         }
-           
 
-        
-       
+        public void SendMail(string to,string msg,string sub)
+        {
+            MailMessage mail = new MailMessage();
+            mail.To.Add(to);
+            mail.From = new MailAddress("medicoplus.co@gmail.com");
+            mail.Subject = sub;
+            string Body = msg;
+            mail.Body = Body;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential
+            ("medicoplus.co@gmail.com", "MedicoAdmin");
+            smtp.EnableSsl = true;
+            smtp.Send(mail);
+        }
+
+
+
         [HttpPost]
         public ActionResult BookAppointment(FormCollection collection)
         {
@@ -162,7 +180,7 @@ namespace MedicoPlus.Controllers
             else
             {
                 ViewBag.error_found = "Appointment not available Try Again";
-                return RedirectToAction("BookAppointment","AppUser");
+                return RedirectToAction("BookAppointment",new { id = docLoc.DoctorLocationId});
             }
 
            
@@ -226,6 +244,7 @@ namespace MedicoPlus.Controllers
                 DateTime DOB = Convert.ToDateTime(collection["DOB"]);
                 DateTime today = DateTime.Now;
                 a.Age = today.Year - DOB.Year;
+                a.Gender = Convert.ToString(collection["Gender"]);
                 a.InsertAppointment();
                 DoctorLocation docLoc = new DoctorLocation();
                 docLoc.DoctorLocationId = a.DoctorLocationId;
@@ -247,7 +266,7 @@ namespace MedicoPlus.Controllers
                
 
                 //smtpClient.Send(mail);
-                return RedirectToAction("ManageAppointment");
+                return RedirectToAction("PendingAppointment");
             }
             catch (Exception E) {
                 Console.Write(E);
@@ -264,6 +283,9 @@ namespace MedicoPlus.Controllers
             
             appointment.AppUserId = ((AppUserModel)Session["User"]).AppUserId;
             DataTable dt = appointment.SelectByAppUserId();
+            DiseaseModel dis = new DiseaseModel();
+            DataTable ds = dis.SelectAll();
+            ViewBag.Disease = ds;
             
            
             return View(dt);
@@ -281,18 +303,19 @@ namespace MedicoPlus.Controllers
         {
             Appointment appointment = new Appointment();
             appointment.AppointmentId = Convert.ToInt32(collection["AppointmentId"]);
+            DataTable dt = appointment.SelectAppointmentById(appointment.AppointmentId);
             appointment.CancelAppointment();
-           
+            string msg = "Your Appointment On Date: "+dt.Rows[0]["AppDate"] +" Has been Cancelled by the Patient:"+((AppUserModel)Session["User"]).AUName;
+            SendMail(Convert.ToString(dt.Rows[0]["Email"]),msg,"Appointment Cancelled");
 
 
             return RedirectToAction("PendingAppointment");
         }
         public ActionResult DoctorList()
-        {
+        {   
             DoctorModel Doc = new DoctorModel();
-            
-            DataTable dt = Doc.SelectAllDoctor();
 
+            DataTable dt = (new DoctorLocation()).SelectByCityId(1);
 
             return View(dt);
         }
@@ -316,8 +339,94 @@ namespace MedicoPlus.Controllers
 
             return View(doc);
         }
+        
+
+        public ActionResult EditProfile()
+        {
+            AppUserModel am = new AppUserModel();
+            am.AppUserId=((AppUserModel)Session["User"]).AppUserId;
+            
+            am.SelectAppUserById();
+            AreaModel area = new AreaModel();
+            ViewBag.area = area.SelectAllArea();
+            CityModel city = new CityModel();
+            ViewBag.city = city.SelectAll();
 
 
+            return View(am);
 
+        }
+        [HttpPost]
+        public ActionResult EditProfile(FormCollection collection)
+        {
+            AppUserModel A = new AppUserModel();
+            A.AppUserId = ((AppUserModel)Session["User"]).AppUserId;
+            A.AUName = collection["Username"];
+            A.Gender = collection["Gender"];
+            A.Email = collection["Email"];
+            A.AreaId = Convert.ToInt32(collection["AreaId"]);
+            A.Address = collection["Address"];
+            A.CityId = Convert.ToInt32(collection["CityId"]);
+            A.Password = collection["Password"];
+            
+            A.Phone = collection["Mobile"];
+            A.Mobile = collection["Mobile"];
+            if (Request.Files["Photo"] != null)
+            {
+                string path = "/Photo/" + DateTime.Now.Ticks.ToString() + "_" + Request.Files["Photo"].FileName;
+                Request.Files["Photo"].SaveAs(Server.MapPath(path));
+                A.Photo = path;
+            }
+           else
+            {
+                AppUserModel temp = new AppUserModel();
+                temp.AppUserId = A.AppUserId;
+                temp.SelectAppUserById();
+                A.Photo = temp.Photo;
+            }
+            
+            A.UpdateAppUser();
+
+
+            return RedirectToAction("UserProfile", "AppUser");
+        }
+        public ActionResult ViewPrescription(int id) {
+            Appointment app = new Appointment();
+            DataTable dt = app.SelectAppointmentById(id);
+            DiseaseModel dis = new DiseaseModel();
+            DataTable ds = dis.SelectAll();
+            ViewBag.Disease = ds;
+
+            return View(dt);
+        }
+        public ActionResult Prescriptions()
+        {
+            Appointment appointment = new Appointment();
+
+            appointment.AppUserId = ((AppUserModel)Session["User"]).AppUserId;
+            DataTable dt = appointment.SelectPrescriptionById(appointment.AppUserId);
+            
+            
+            return View(dt);
+        }
+        public ActionResult MedicalStoreList (int id)
+        {
+            ViewBag.AppointmentId = id;
+            DataTable dt = (new MedicalStoreModel()).SelectAllMedicalStore();
+            
+            return View(dt);
+
+        }
+        [HttpPost]
+        public ActionResult ForwardPrescription(FormCollection collection)
+        {
+            Appointment app = new Appointment();
+            app.AppointmentId = Convert.ToInt32(collection["AppId"]);
+            app.MedicalStoreId = Convert.ToInt32(collection["StoreId"]);
+            app.StoreStatus = "PENDING";
+            app.ForwardMedicalStore();
+            return RedirectToAction("Prescriptions");
+
+        }
     }
 }

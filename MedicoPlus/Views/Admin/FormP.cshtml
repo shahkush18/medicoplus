@@ -1,0 +1,136 @@
+﻿@using MedicoPlus.Models
+@using System.Data
+@model DataTable
+@{
+    ViewBag.Title = "FormP";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+    DataTable Disease = (DataTable)ViewBag.Disease;
+}
+
+    <body class="fixed-left">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="page-title">Report</h4>
+            <ol class="breadcrumb">Enter Filters</ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <div class="row">
+                    <form class="form-horizontal" role="form" action="GenerateReports" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Disease</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" name="DiseaseId">
+                                    <option value="0">ALL</option>
+                                    @for (int i = 0; i < Disease.Rows.Count; i++)
+                                    {
+                                        <option value=@Disease.Rows[i]["DiseaseId"]>@Disease.Rows[i]["DiseaseName"]</option>
+
+                                    }
+                                </select>
+                            </div>
+                            
+                            
+                            <label class="col-sm-1 control-label">From</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="date" name="From" required="required">
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            
+                            
+                            
+                            <label class="col-sm-1 control-label">To</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="date" name="To" required="required">
+                            </div>
+                            <button type="submit" class="btn btn-purple waves-effect waves-light col-sm-2">Filter</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-box">
+
+                <div class="row">
+                    <div class="p-20" id="table_wrapper">
+                        <table class="table m-0" id="list">
+
+                            <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Disease Name</th>
+                                    <th>Count</th>
+                                    
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                
+                                @for (int i = 0; i < Disease.Rows.Count; i++)
+                                {
+                                    int K = i + 1;
+                                    int count = 0;
+                                    DateTime low = Convert.ToDateTime(Model.Rows[0]["Date"]);
+
+                                    for (int j = 0; j < Model.Rows.Count; j++)
+                                    {
+
+
+                                        if (Convert.ToInt32(Disease.Rows[i]["DiseaseId"]) == Convert.ToInt32(Model.Rows[j]["DiseaseId"]))
+                                        {
+
+                                            count = count + 1;
+
+                                        }
+                                        if(low < Convert.ToDateTime(Model.Rows[j]["Date"]))
+                                        {
+                                            low = Convert.ToDateTime(Model.Rows[j]["Date"]);
+                                        }
+                                    }
+
+                                    <tr>
+
+                                        <th scope="row">@K</th>
+                                        <td>@Disease.Rows[i]["DiseaseName"]</td>
+                                        <td><form action="GenerateReports" method="post">
+                                            <input type="hidden" name="DiseaseId" value="@Disease.Rows[i]["DiseaseId"]"/>
+                                                <input type="hidden" name="To" value="@DateTime.Now" />
+                                                <input type="hidden" name="From" value="@low" />
+
+                                             
+                                            <button type="submit">@count</button>
+                                            
+                                            </form></td>
+                                        
+                                    </tr>
+
+                                    
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="hidden-print">
+                        <div class="pull-right">
+                            <button id="btnExport" class="btn btn-inverse waves-effect waves-light"><i class="ti-download"></i> Export as Excel Sheet</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+

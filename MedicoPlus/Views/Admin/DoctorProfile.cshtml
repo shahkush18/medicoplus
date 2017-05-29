@@ -1,0 +1,109 @@
+﻿@using System.Data;
+@using MedicoPlus.Models;
+@model DoctorModel
+
+@{
+    ViewBag.Title = "DoctorProfile";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+    DataTable dt = ViewBag.Location;
+}
+
+<div class="wraper container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="bg-picture text-center">
+                <div class="bg-picture-overlay"></div>
+                <div class="profile-info-name">
+                    <img src=@Model.Photo class="thumb-lg img-circle img-thumbnail" alt="profile-image">
+                    <h4 class="m-b-5"><b>@Model.DocName</b></h4>
+                    <p class="text-muted"><i class="fa fa-map-marker"></i> </p>
+                </div>
+            </div>
+            <!--/ meta -->
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="card-box m-t-20">
+                <h4 class="m-t-0 header-title"><b>Personal Information</b></h4>
+                <div class="p-20">
+                    <div class="about-info-p">
+                        <strong>Full Name</strong>
+                        <br>
+                        <p class="text-muted">@Model.DocName</p>
+                    </div>
+                    <div class="about-info-p">
+                        <strong>Mobile</strong>
+                        <br>
+                        <p class="text-muted">@Model.Mobile</p>
+                    </div>
+                    <div class="about-info-p">
+                        <strong>Email</strong>
+                        <br>
+                        <p class="text-muted">@Model.Email</p>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+        <div class="col-md-8">
+
+            <div class="card-box m-t-20">
+                <h4 class="m-t-0 header-title"><b>Locations</b></h4>
+                <table class="table table-striped m-0">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Clinic Name</th>
+                            <th>Area</th>
+                            <th>Timing</th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            int j = i + 1;
+                            DateTime StartTime = Convert.ToDateTime(dt.Rows[i]["StartTime"]);
+                            DateTime EndTime = Convert.ToDateTime(dt.Rows[i]["EndTime"]);
+
+
+                            <tr>
+                                <th scope="row">@j</th>
+                                <td>@dt.Rows[i]["ClinicName"]</td>
+
+                                <td>@dt.Rows[i]["AreaName"]</td>
+                                <td>@StartTime.TimeOfDay to @EndTime.TimeOfDay</td>
+                                
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table><br />
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+    </div>
+</div>
+

@@ -27,11 +27,12 @@ namespace MedicoPlus.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public bool IsActive { get; set; }
+        public string RegistrationNo { get; set; }
 
         public int InsertDoctor()
         {
 
-            string query = "Insert INTO Doctor(DocName,Intro,Photo,Gender, Mobile,Email, DOB, DOJ,Status,SpecialityId,Qualification,MinConsultationFee,Documents, MaxApptPerHour,UserName,Password) VALUES (@DocName,@Intro,@Photo,@Gender, @Mobile,@Email, @DOB, @DOJ,@Status,@SpecialityId,@Qualification,@MinConsultationFee,@Documents, @MaxApptPerHour,@UserName,@Password)";
+            string query = "Insert INTO Doctor(DocName,Intro,Photo,Gender, Mobile,Email, DOB, DOJ,Status,SpecialityId,Qualification,MinConsultationFee,Documents, MaxApptPerHour,UserName,Password,RegistrationNo) VALUES (@DocName,@Intro,@Photo,@Gender, @Mobile,@Email, @DOB, @DOJ,@Status,@SpecialityId,@Qualification,@MinConsultationFee,@Documents, @MaxApptPerHour,@UserName,@Password,@RegistrationNo)";
             List<SqlParameter> lstParams = new List<SqlParameter>();
             lstParams.Add(new SqlParameter("@DocName", this.DocName));
             lstParams.Add(new SqlParameter("@Intro", this.Intro));
@@ -49,15 +50,16 @@ namespace MedicoPlus.Models
             lstParams.Add(new SqlParameter("@MaxApptPerHour", this.MaxApptPerHour));
             lstParams.Add(new SqlParameter("@UserName", this.UserName));
             lstParams.Add(new SqlParameter("@Password", this.Password));
+            lstParams.Add(new SqlParameter("@RegistrationNo", this.RegistrationNo));
             return DataAccess.ModifyData(query, lstParams);
         }
 
         public bool Authenticate()
         {
-            string query = "SELECT * FROM Doctor WHERE UserName = @UserName AND Password = @Password AND IsActive = 1";
+            string query = "SELECT * FROM Doctor WHERE Email = @Email AND Password = @Password AND IsActive = 1";
 
             List<SqlParameter> lstParams = new List<SqlParameter>();
-            lstParams.Add(new SqlParameter("@UserName", this.UserName));
+            lstParams.Add(new SqlParameter("@Email", this.Email));
             lstParams.Add(new SqlParameter("@Password", this.Password));
             DataTable dt = DataAccess.SelectData(query, lstParams);
 
@@ -68,6 +70,18 @@ namespace MedicoPlus.Models
                 this.IsActive = Convert.ToBoolean(dt.Rows[0]["IsActive"]);
                 this.DoctorId = Convert.ToInt32(dt.Rows[0]["DoctorId"]);
                 this.Photo = Convert.ToString(dt.Rows[0]["Photo"]);
+                this.DocName = Convert.ToString(dt.Rows[0]["DocName"]);
+                this.Intro = Convert.ToString(dt.Rows[0]["Intro"]);
+                this.Gender = Convert.ToString(dt.Rows[0]["Gender"]);
+                this.Mobile = Convert.ToString(dt.Rows[0]["Mobile"]);
+                this.Email = Convert.ToString(dt.Rows[0]["Email"]);
+                this.Status = Convert.ToString(dt.Rows[0]["Status"]);
+                this.Qualification = Convert.ToString(dt.Rows[0]["Qualification"]);
+                this.Documents = Convert.ToString(dt.Rows[0]["Documents"]);
+                this.MaxApptPerHour = Convert.ToInt32(dt.Rows[0]["MaxApptPerHour"]);
+                this.SpecialityId = Convert.ToInt32(dt.Rows[0]["SpecialityId"]);
+                this.MinConsultationFee = Convert.ToInt32(dt.Rows[0]["MinConsultationFee"]);
+                
                 return true;
             }
             else
@@ -120,14 +134,66 @@ namespace MedicoPlus.Models
                 this.MinConsultationFee = Convert.ToInt32(dt.Rows[0]["MinConsultationFee"]);
                 this.Documents = dt.Rows[0]["Documents"].ToString();
                 this.MaxApptPerHour = Convert.ToInt32(dt.Rows[0]["MaxApptPerHour"]);
+                this.RegistrationNo = dt.Rows[0]["RegistrationNo"].ToString();
             }
             return dt;
         }
         public DataTable SelectAllDoctor() {
-            string query = "SELECT Doctor.DoctorId,Doctor.DocName,Doctor.Qualification,Doctor.MinConsultationFee, Speciality.SpName FROM Doctor INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId";
+            string query = "SELECT Doctor.DoctorId,Doctor.DocName,Doctor.Qualification,Doctor.MinConsultationFee,Doctor.Photo, Speciality.SpName FROM Doctor INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId";
             List<SqlParameter> lstParam = new List<SqlParameter>();
             return DataAccess.SelectData(query,lstParam);
         }
+        public DataTable SelectDoctorByStatus()
+        {
+            string query = "SELECT Doctor.*, Speciality.SpName FROM Doctor INNER JOIN Speciality ON Doctor.SpecialityId = Speciality.SpecialityId WHERE Status = @Status";
+            List<SqlParameter> lstParam = new List<SqlParameter>();
+            lstParam.Add(new SqlParameter("@Status", this.Status));
+            return DataAccess.SelectData(query, lstParam);
+        }
+       public int UpdateStatus()
+        {
+            string query = "UPDATE Doctor SET Status=@Status , IsActive=@IsActive WHERE DoctorId=@DoctorId";
+            List<SqlParameter> lstparams = new List<SqlParameter>();
+            lstparams.Add(new SqlParameter("@Status", this.Status));
+            lstparams.Add(new SqlParameter("@DoctorId", this.DoctorId));
+            lstparams.Add(new SqlParameter("@IsActive", this.IsActive));
+
+            return DataAccess.ModifyData(query, lstparams);
+
+        }
+        public int UpdateDoctor()
+        {
+
+            string query = "UPDATE Doctor SET DocName = @DocName,Intro=@Intro,Gender=@Gender, Mobile=@Mobile,Email=@Email,SpecialityId=@SpecialityId,Qualification=@Qualification,MinConsultationFee=@MinConsultationFee,Documents=@Documents, MaxApptPerHour=@MaxApptPerHour,UserName=@UserName,Password=@Password,RegistrationNo=@RegistrationNo WHERE DoctorId=@DoctorId";
+            List<SqlParameter> lstParams = new List<SqlParameter>();
+            lstParams.Add(new SqlParameter("@DocName", this.DocName));
+            lstParams.Add(new SqlParameter("@Intro", this.Intro));
+            //lstParams.Add(new SqlParameter("@Photo", this.Photo));
+            lstParams.Add(new SqlParameter("@Gender", this.Gender));
+            lstParams.Add(new SqlParameter("@Mobile", this.Mobile));
+            lstParams.Add(new SqlParameter("@Email", this.Email));
+            
+            lstParams.Add(new SqlParameter("@SpecialityId", this.SpecialityId));
+            lstParams.Add(new SqlParameter("@Qualification", this.Qualification));
+            lstParams.Add(new SqlParameter("@MinConsultationFee", this.MinConsultationFee));
+            lstParams.Add(new SqlParameter("@Documents", this.Documents));
+            lstParams.Add(new SqlParameter("@MaxApptPerHour", this.MaxApptPerHour));
+            lstParams.Add(new SqlParameter("@UserName", this.UserName));
+            lstParams.Add(new SqlParameter("@Password", this.Password));
+            lstParams.Add(new SqlParameter("@RegistrationNo", this.RegistrationNo));
+            lstParams.Add(new SqlParameter("@DoctorId", this.DoctorId));
+            return DataAccess.ModifyData(query, lstParams);
+        }
+        public DataTable SelectDoctorBySpecialityId() {
+            string query = "SELECT * FROM Doctor WHERE SpecialityId = @SpecialityId";
+            List<SqlParameter> lst = new List<SqlParameter>();
+            lst.Add(new SqlParameter("@SpecialityId", this.SpecialityId));
+            return DataAccess.SelectData(query,lst);
+
+
+        }
+
+
 
     }
 }

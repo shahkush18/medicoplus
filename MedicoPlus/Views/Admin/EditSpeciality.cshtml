@@ -1,0 +1,26 @@
+﻿@using MedicoPlus.Models
+@model SpecialityModel
+@{
+    ViewBag.Title = "EditSpeciality";
+    Layout = "~/Views/Shared/_mytemplate.cshtml";
+}
+
+<h2>Edit Speciality</h2>
+
+<form action="CreateSpeciality" method="post">
+    <div class="form-group">
+        <label>Speciality Name </label>
+        
+        <input type="text" name="SpName" placeholder="Speciality Name" class="form-control" value="@Model.SpName" />
+        <input type="hidden" name="SpecialityId" value="@Model.SpecialityId" />
+    </div>
+    <div class="form-group">
+        <div class="checkbox checkbox-primary">
+            <input type="checkbox" name="IsActive" value="true" />
+            <label>IsActive</label>
+        </div>
+    </div>
+
+    <button type="submit"  class="btn btn-purple waves-effect waves-light">Change</button>
+
+</form>

@@ -48,7 +48,7 @@ namespace MedicoPlus.Models
             dataAdapter.Fill(dt);
             connection1.Close();
             return dt;*/
-            string query = "SELECT * FROM Zone";
+            string query = "SELECT Zone.*,City.CityName FROM Zone INNER JOIN City ON Zone.CityId = City.CityId";
 
             List<SqlParameter> lstParams = new List<SqlParameter>();
 
@@ -70,6 +70,28 @@ namespace MedicoPlus.Models
             connection1.Close();
             return dt;
            
+
+        }
+        public int UpdateZone()
+        {
+            string query = "UPDATE Zone SET ZoneName=@ZoneName WHERE ZoneId = @ZoneId";
+            List<SqlParameter> lstparam = new List<SqlParameter>();
+            lstparam.Add(new SqlParameter("@ZoneName",this.ZoneName));
+            lstparam.Add(new SqlParameter("@ZoneId", this.ZoneId));
+            return DataAccess.ModifyData(query, lstparam);
+
+        }
+        public DataTable SelectZoneById()
+        {
+            string query = "Select * FROM Zone WHERE ZoneId = @ZoneId";
+            List<SqlParameter> lstparam = new List<SqlParameter>();
+            
+            lstparam.Add(new SqlParameter("@ZoneId", this.ZoneId));
+            DataTable dt = DataAccess.SelectData(query, lstparam);
+            this.ZoneId = Convert.ToInt32(dt.Rows[0]["ZoneId"]);
+            this.ZoneName = Convert.ToString(dt.Rows[0]["ZoneName"]);
+
+            return dt;
 
         }
     }

@@ -85,6 +85,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -148,9 +152,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -216,11 +217,12 @@
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\APIController.cs" />
     <Compile Include="Controllers\AppUserController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MedicalStoreController.cs" />
+    <Compile Include="Controllers\MedicoPlusApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -584,7 +586,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -654,12 +658,41 @@
     <Content Include="Views\AppUser\DoctorList.cshtml" />
     <Content Include="Views\AppUser\Dashbord.cshtml" />
     <Content Include="Views\AppUser\DoctorProfile.cshtml" />
+    <Content Include="Views\Doctor\AddPrescription.cshtml" />
+    <Content Include="Views\Doctor\Prescriptions.cshtml" />
+    <Content Include="Views\API\Index.cshtml" />
+    <Content Include="Views\Admin\FormP.cshtml" />
+    <Content Include="Views\Admin\VerifyDoctor.cshtml" />
+    <Content Include="Views\Admin\DoctorList.cshtml" />
+    <Content Include="Views\Admin\DoctorProfile.cshtml" />
+    <Content Include="Views\Doctor\PreviousAppointments.cshtml" />
+    <Content Include="Views\Admin\EditCity.cshtml" />
+    <Content Include="Views\Admin\EditArea.cshtml" />
+    <Content Include="Views\Admin\EditSpeciality.cshtml" />
+    <Content Include="Views\Admin\EditDisease.cshtml" />
+    <Content Include="Views\Access\LoginUser.cshtml" />
+    <Content Include="Views\Access\LoginDoctor.cshtml" />
+    <Content Include="Views\Doctor\EditProfile.cshtml" />
+    <Content Include="Views\AppUser\EditProfile.cshtml" />
+    <Content Include="Views\AppUser\ViewPrescription.cshtml" />
+    <Content Include="Views\AppUser\Prescriptions.cshtml" />
+    <Content Include="Views\MedicalStore\SignUp.cshtml" />
+    <Content Include="Views\Shared\_MedicalStoreLayout.cshtml" />
+    <Content Include="Views\Access\LoginStore.cshtml" />
+    <Content Include="Views\MedicalStore\MedicalStoreProfile.cshtml" />
+    <Content Include="Views\Admin\EditZone.cshtml" />
+    <Content Include="Views\AppUser\MedicalStoreList.cshtml" />
+    <Content Include="Views\MedicalStore\NewOrders.cshtml" />
+    <Content Include="Views\MedicalStore\ViewPrescription.cshtml" />
+    <Content Include="Views\MedicalStore\AcceptedOrders.cshtml" />
+    <Content Include="Views\MedicalStore\CompletedOrders.cshtml" />
+    <Content Include="Views\MedicalStore\PastOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="NewFolder1\" />
     <Folder Include="Photo\" />
-    <Folder Include="Views\API\" />
+    <Folder Include="Views\MediPlus\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

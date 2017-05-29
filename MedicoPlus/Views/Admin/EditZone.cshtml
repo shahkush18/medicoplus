@@ -1,0 +1,44 @@
+﻿
+
+
+@using MedicoPlus.Models
+@model ZoneModel
+@{
+    ViewBag.Title = "EditZone";
+    Layout = "~/Views/Shared/_myTemplate.cshtml";
+}
+
+<h2>CreateZone</h2>
+<form action="/Admin/EditZone" method="post">
+    <div class="form-group">
+        <label>Zone Name </label>
+        <input type="text" name="ZoneName" placeholder="Zone Name" class="form-control" value="@Model.ZoneName"/>
+        <input type="hidden" name="ZoneId"   value="@Model.ZoneId" />
+    </div>
+    <div class="form-group">
+        <label>City Name</label>
+        <select name="CityId">
+           
+                <option value="1">Vadodara</option>
+            
+        </select>
+
+    </div>
+    <div class="form-group">
+        <div class="checkbox checkbox-primary">
+            @if (Model.IsActive)
+            {
+            <input type="checkbox" name="IsActive" value="true" checked="checked" />
+            }
+            else
+            {
+                <input type="checkbox" name="IsActive" value="true" />
+            }
+            <label>IsActive</label>
+        </div>
+    </div>
+
+    <button type="submit" value="Change Zone" class="btn btn-purple waves-effect waves-light">Submit</button>
+
+</form>
+

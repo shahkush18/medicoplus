@@ -12,8 +12,8 @@
         <tr>
             <td>ZoneId</td>
             <td>ZoneName</td>
-            <td>CityId</td>
-            <td>IsActive</td>
+            <td>City Name</td>
+            <td>Edit</td>
         </tr>
     </thead>
     <tbody>
@@ -22,8 +22,8 @@
             <tr>
                 <td>@Model.Rows[i]["ZoneId"]</td>
                 <td><a href="ZoneDetails/@Model.Rows[i]["ZoneId"]">@Model.Rows[i]["Zonename"]</a></td>
-                <td>@Model.Rows[i]["CityId"]</td>
-                <td>@Model.Rows[i]["IsActive"]</td>
+                <td>@Model.Rows[i]["CityName"]</td>
+                <td><a href="/Admin/EditZone/@Model.Rows[i]["ZoneId"]">Edit</a></td>
             </tr>
         }
     </tbody>
@@ -31,4 +31,4 @@
 
     </tfoot>
 </table>
-<a href="\Admin\CreateArea">Add Area</a>
+<a href="/Admin/CreateZone">Add Zone</a>

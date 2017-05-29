@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_AppUserLayout.cshtml";
 }
 
-<h2>Manage Appointment</h2>
+<h3>Manage Appointment</h3>
 <body class="smallscreen fixed-left-void">
     
     <div class="container">
@@ -39,7 +39,7 @@
 
                                             <tr>
                                             <th scope="row">@j</th>
-                                            <td>@Model.Rows[i]["patientName"]</td>
+                                            <td><a href="/AppUser/ViewPrescription/@Model.Rows[i]["AppointmentId"]">@Model.Rows[i]["patientName"]</a></td>
                                             <td>@App_date[0] @Model.Rows[i]["AppTime"]:00</td>
                                             <td>@Model.Rows[i]["DocName"]</td>
                                             <td>@Model.Rows[i]["ClinicName"]</td>

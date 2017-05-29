@@ -1,0 +1,81 @@
+﻿@using System.Data;
+@using MedicoPlus.Models;
+@model MedicalStoreModel
+@{
+    Layout = " ~/Views/Shared/_MedicalStoreLayout.cshtml";
+    CityModel city = (CityModel)ViewBag.City;
+    //DataTable dt = ViewBag.Appointment;
+}
+
+<div class="wraper container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <center>
+                <h2 class="m-b-5"><b>@Model.StoreName</b></h2>
+                <p class="text-muted"><i class="fa fa-map-marker"></i>@Model.Phone</p>
+            </center>
+            <center>
+
+
+                <div class="profile-info-name">
+                    <img src=@Model.Photo style="height:250px;" alt="profile-image">
+                </div>
+            </center>
+            
+            <!--/ meta -->
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="card-box m-t-20">
+                <h4 class="m-t-0 header-title"><b>Store Information</b></h4>
+                <div class="p-20">
+
+                    <div class="about-info-p">
+                        <strong>Mobile</strong>
+                        <br>
+                        <p class="text-muted">@Model.Phone</p>
+                    </div>
+                    <div class="about-info-p">
+                        <strong>Email</strong>
+                        <br>
+                        <p class="text-muted">@Model.Email</p>
+                    </div>
+                    <div class="about-info-p m-b-0">
+                        <strong>Location</strong>
+                        <br>
+                        <p class="text-muted">@Model.Address</p>
+                    </div>
+                    <div class="about-info-p m-b-0">
+                        <strong>Min. Discount</strong>
+                        <br>
+                        <p class="text-muted">@Model.MinDiscount</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-8 m-t-20">
+            <div class="card-box">
+                <h4 class="m-t-0 header-title"><b>Store Bio</b></h4>
+                <p>Apollo Hospitals Enterprise Limited is an Indian hospital chain based in Chennai, India. It was founded by Dr Prathap C. Reddy in 1983 and has hospitals in India, Bangladesh, Kuwait and Qatar. Several of the group's hospitals have been among the first in India to receive international healthcare accreditation by America-based Joint Commission International (JCI). The Sri Lankan branch of Apollo Hospitals was shut down in mid 2014 and the building was branded as Lanka Hospitals.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+            </div>
+
+            <div class="row">
+
+            </div>
+        
+
+
